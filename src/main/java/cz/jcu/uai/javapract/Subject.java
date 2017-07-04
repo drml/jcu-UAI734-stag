@@ -1,5 +1,7 @@
 package cz.jcu.uai.javapract;
 
+import java.util.Date;
+
 public class Subject {
 
 	private String name;
@@ -8,14 +10,14 @@ public class Subject {
 	private String timeStart;
 	private String timeEnd;
 	private int day;
-	//private boolean type;
+	private SubjectType type;
 	private String building;
 	private String room;
 	private Date dateStartSubject;
 	private Date dateEndSubject;
 	private boolean act;
 
-	public Subject(String name,int subjectCode,String subjectID, String timeStart, String timeEnd,int day,String building,String room ,Date dateStartSubject,Date dateEndSubject,boolean act) {
+	public Subject(String typ,String name,int subjectCode,String subjectID, String timeStart, String timeEnd,int day,String building,String room ,Date dateStartSubject,Date dateEndSubject,boolean act) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.subjectID = subjectID;
@@ -28,6 +30,15 @@ public class Subject {
 		this.dateStartSubject = dateStartSubject;
 		this.dateEndSubject = dateEndSubject;
 		this.act = act;
+		if (typ.equals("Cv"))
+			type = SubjectType.CVICENI;
+		else
+			type = SubjectType.PREDNASKA;
+	}
+
+	public String getName()
+	{
+		return name;
 	}
 
 	public int getSubjectCode()
@@ -40,5 +51,49 @@ public class Subject {
 		return subjectID;
 	}
 
+	public String getTimeStart()
+	{
+		return timeStart;
+	}
+
+	public String getTimeEnd()
+	{
+		return timeEnd;
+	}
+
+	public int getDay()
+	{
+		return day;
+	}
+
+	public SubjectType getType()
+	{
+		return type;
+	}
+
+	public String getBuilding()
+	{
+		return building;
+	}
+
+	public String getRoom()
+	{
+		return room;
+	}
+
+	public Date getDateStartSubject()
+	{
+		return dateStartSubject;
+	}
+
+	public Date getDateEndSubject()
+	{
+		return dateEndSubject;
+	}
+
+	public boolean isAct()
+	{
+		return act;
+	}
 
 }

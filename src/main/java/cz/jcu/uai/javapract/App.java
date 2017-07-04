@@ -7,6 +7,8 @@ package cz.jcu.uai.javapract;
  */
 public class App 
 {
+    private Controler $controler;
+
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
