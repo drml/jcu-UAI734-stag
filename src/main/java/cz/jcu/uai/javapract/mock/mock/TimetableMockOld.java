@@ -1,4 +1,4 @@
-package cz.jcu.prf.javapract.mock;
+package cz.jcu.uai.javapract.mock.mock;
 
 import cz.jcu.uai.javapract.Subject;
 import cz.jcu.uai.javapract.TimeTable;
