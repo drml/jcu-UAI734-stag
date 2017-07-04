@@ -13,7 +13,6 @@ public class TimeTable {
 		// TODO Auto-generated constructor stub
 		this.content= new HashMap<Integer, HashMap<String, Subject>>();
 
-		this.date = date;
 	}
 
 }
