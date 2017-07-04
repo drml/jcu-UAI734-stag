@@ -9,6 +9,9 @@ import java.sql.Time;
  */
 public class Comparator {
 
+    private TimeTable oldTable;
+    private TimeTable newTable;
+
     /**
      * Porovna dva rozvrhy a vrati rozdily, ve formatu Diff.
      * Vrati NULL pokud jsou stejne.

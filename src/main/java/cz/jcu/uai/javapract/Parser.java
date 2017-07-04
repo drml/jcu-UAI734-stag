@@ -5,6 +5,8 @@ package cz.jcu.uai.javapract;
  */
 public class Parser {
 
+    private TimeTable result;
+
 
     /**
      * Parses string into TimeTable
