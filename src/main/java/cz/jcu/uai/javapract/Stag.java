@@ -1,44 +1,24 @@
 package cz.jcu.uai.javapract;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 /**
  * Created by Drml on 4.7.2017.
  */
-public class Stag {
+public class Stag extends StagAbstract implements StagInterface {
 
-    private String $apiUrl;
-    private String $studentId;
-    private String $semester;
-
-    public void set$studentId(String $studentId)
+    public Stag(String apiUrl, String studentId, String semester, Parser parser)
     {
-        this.$studentId = $studentId;
+        super(apiUrl, studentId, semester, parser);
     }
 
-    public void set$semester(String $semester)
+    public TimeTable fetchCurrentTimetable()
     {
-        this.$semester = $semester;
+        throw new NotImplementedException();
     }
 
-    public Stag(String $apiUrl, String $studentId, String $semester)
+    public String fetchCurrentTimetableJson()
     {
-
-        this.$apiUrl = $apiUrl;
-        this.$studentId = $studentId;
-        this.$semester = $semester;
+        throw new NotImplementedException();
     }
-
-    /**
-     * Requests current timetable, returns raw JSON
-     *
-     * @return JSON encoded timetable
-     */
-    public String fetchCurrentTimetable(){
-
-        // TODO: Implement
-        return null;
-    }
-
-
-
-
 }
