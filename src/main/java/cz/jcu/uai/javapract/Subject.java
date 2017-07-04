@@ -3,48 +3,42 @@ package cz.jcu.uai.javapract;
 public class Subject {
 
 	private String name;
-	private String time;
+	private int subjectCode;
+	private String subjectID;
+	private String timeStart;
+	private String timeEnd;
+	private int day;
+	//private boolean type;
+	private String building;
+	private String room;
+	private Date dateStartSubject;
+	private Date dateEndSubject;
+	private boolean act;
 	
-	public Subject(String name, String time) {
+	public Subject(String name,int subjectCode,String subjectID, String timeStart, String timeEnd,int day,String building,String room ,Date dateStartSubject,Date dateEndSubject,boolean act) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
-		this.time = time;
+		this.subjectID = subjectID;
+		this.subjectCode = subjectCode;
+		this.timeStart = timeStart;
+		this.timeEnd = timeEnd;
+		this.day = day;
+		this.building = building;
+		this.room = room;
+		this.dateStartSubject = dateStartSubject;
+		this.dateEndSubject = dateEndSubject;
+		this.act = act;
 	}
-	
-	/**
-	 * *Getter for name
-	 * @return name
-	 */
-	
-	public String getName() {
-		return name;
+
+	public int getSubjectCode()
+	{
+		return subjectCode;
 	}
-	
-	/**
-	 * *Setter for name
-	 * @param name
-	 */
-	
-	public void setName(String name) {
-		this.name = name;
+
+	public String getSubjectID()
+	{
+		return subjectID;
 	}
-	
-	/**
-	 * *
-	 * @return
-	 */
-	
-	public String getTime() {
-		return time;
-	}
-	
-	/**
-	 * *
-	 * @param time
-	 */
-	
-	public void setTime(String time) {
-		this.time = time;
-	}
+
 
 }
