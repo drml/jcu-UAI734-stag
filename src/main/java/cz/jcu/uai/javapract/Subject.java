@@ -13,8 +13,8 @@ public class Subject {
 	private SubjectType type;
 	private String building;
 	private String room;
-	private Date dateStartSubject;
-	private Date dateEndSubject;
+	private String dateStartSubject;
+	private String dateEndSubject;
 	private boolean act;
 
 	private String id;
@@ -23,7 +23,7 @@ public class Subject {
 	{
 	}
 
-	public Subject(String typ, String name, int subjectCode, String subjectID, String timeStart, String timeEnd, int day, String building, String room , Date dateStartSubject, Date dateEndSubject, boolean act) {
+	public Subject(String typ, String name, int subjectCode, String subjectID, String timeStart, String timeEnd, int day, String building, String room , String dateStartSubject, String dateEndSubject, boolean act) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.subjectID = subjectID;
@@ -90,12 +90,12 @@ public class Subject {
 		return room;
 	}
 
-	public Date getDateStartSubject()
+	public String getDateStartSubject()
 	{
 		return dateStartSubject;
 	}
 
-	public Date getDateEndSubject()
+	public String getDateEndSubject()
 	{
 		return dateEndSubject;
 	}
@@ -162,12 +162,12 @@ public class Subject {
 		this.room = room;
 	}
 
-	public void setDateStartSubject(Date dateStartSubject)
+	public void setDateStartSubject(String dateStartSubject)
 	{
 		this.dateStartSubject = dateStartSubject;
 	}
 
-	public void setDateEndSubject(Date dateEndSubject)
+	public void setDateEndSubject(String dateEndSubject)
 	{
 		this.dateEndSubject = dateEndSubject;
 	}

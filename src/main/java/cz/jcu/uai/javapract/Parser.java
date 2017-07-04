@@ -1,7 +1,10 @@
 package cz.jcu.uai.javapract;
 
-import java.util.ArrayList;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import org.json.*;
 
 
 /**
@@ -31,6 +34,9 @@ public class Parser {
 //        for (int i = 0; i<12 ; i++){
 //            pushstr =
 //        }
+
+        JSONObject obj = new JSONObject(json);
+        JSONArray arr = obj.getJSONArray("rozvrhovaAkce");
     }
 
 
