@@ -1,6 +1,7 @@
 package cz.jcu.uai.javapract;
 
 /**
+ *
  * Hello world!
  *
  */
