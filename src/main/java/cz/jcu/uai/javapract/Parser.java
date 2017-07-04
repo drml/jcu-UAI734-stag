@@ -2,6 +2,8 @@ package cz.jcu.uai.javapract;
 
 import java.util.ArrayList;
 
+
+
 /**
  * Created by Drml on 4.7.2017.
  */

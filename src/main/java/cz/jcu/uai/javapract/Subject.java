@@ -19,7 +19,11 @@ public class Subject {
 
 	private String id;
 
-	public Subject(String typ,String name,int subjectCode,String subjectID, String timeStart, String timeEnd,int day,String building,String room ,Date dateStartSubject,Date dateEndSubject,boolean act) {
+	public Subject()
+	{
+	}
+
+	public Subject(String typ, String name, int subjectCode, String subjectID, String timeStart, String timeEnd, int day, String building, String room , Date dateStartSubject, Date dateEndSubject, boolean act) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.subjectID = subjectID;
@@ -110,5 +114,71 @@ public class Subject {
 	public String toString()
 	{
 		return this.id;
+	}
+
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public void setSubjectCode(int subjectCode)
+	{
+		this.subjectCode = subjectCode;
+	}
+
+	public void setSubjectID(String subjectID)
+	{
+		this.subjectID = subjectID;
+	}
+
+	public void setTimeStart(String timeStart)
+	{
+		this.timeStart = timeStart;
+	}
+
+	public void setTimeEnd(String timeEnd)
+	{
+		this.timeEnd = timeEnd;
+	}
+
+	public void setDay(int day)
+	{
+		this.day = day;
+	}
+
+	public void setType(SubjectType type)
+	{
+		this.type = type;
+	}
+
+	public void setBuilding(String building)
+	{
+		this.building = building;
+	}
+
+	public void setRoom(String room)
+	{
+		this.room = room;
+	}
+
+	public void setDateStartSubject(Date dateStartSubject)
+	{
+		this.dateStartSubject = dateStartSubject;
+	}
+
+	public void setDateEndSubject(Date dateEndSubject)
+	{
+		this.dateEndSubject = dateEndSubject;
+	}
+
+	public void setAct(boolean act)
+	{
+		this.act = act;
+	}
+
+	public void setId(String id)
+	{
+		this.id = id;
 	}
 }
