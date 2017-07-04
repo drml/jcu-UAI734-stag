@@ -1,10 +1,7 @@
 package cz.jcu.uai.javapract;
 
 import java.lang.reflect.Array;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 
 public class TimeTable {
 
@@ -48,16 +45,18 @@ public class TimeTable {
 	/**
 	 * Getter for timetable
 	 * @return content
-	 * @param monday
 	 */
-	public HashMap<Integer, HashMap<String, Subject>> getContent(int monday)
+	public HashMap<Integer, HashMap<String, Subject>> getContent()
 	{
 		return content;
 	}
 
 	public HashMap<String, Subject> getDay(int day)
 	{
+
 		return content.get(day);
+
+
 	}
 
 	/**
