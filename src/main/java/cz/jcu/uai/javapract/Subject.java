@@ -14,45 +14,45 @@ public class Subject {
 	private Date dateStartSubject;
 	private Date dateEndSubject;
 	private boolean
-	
+
 	public Subject(String name, String time) {
 		// TODO Auto-generated constructor stub
 		this.subjectID = name;
 		this.time = time;
 	}
-	
+
 	/**
 	 * *Getter for name
 	 * @return name
 	 */
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * *Setter for name
 	 * @param name
 	 */
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * *
 	 * @return
 	 */
-	
+
 	public String getTime() {
 		return time;
 	}
-	
+
 	/**
 	 * *
 	 * @param time
 	 */
-	
+
 	public void setTime(String time) {
 		this.time = time;
 	}
