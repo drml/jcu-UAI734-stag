@@ -14,7 +14,7 @@ public class Subject {
 	private Date dateStartSubject;
 	private Date dateEndSubject;
 	private boolean act;
-	
+
 	public Subject(String name,int subjectCode,String subjectID, String timeStart, String timeEnd,int day,String building,String room ,Date dateStartSubject,Date dateEndSubject,boolean act) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
