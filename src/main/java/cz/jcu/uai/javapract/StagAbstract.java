@@ -1,7 +1,5 @@
 package cz.jcu.uai.javapract;
 
-import cz.jcu.uai.javapract.Parser;
-
 /**
  * Created by Drml on 4.7.2017.
  */
@@ -12,11 +10,11 @@ public abstract class StagAbstract {
     protected String semester;
     protected Parser parser;
 
-    public StagAbstract(String apiUrl, String studentId, String semester, Parser parser)
+    public StagAbstract(ConfigurationParameters configurationParameters, Parser parser)
     {
-        this.apiUrl = apiUrl;
-        this.studentId = studentId;
-        this.semester = semester;
+        this.apiUrl = configurationParameters.getApiUrl();
+        this.studentId = configurationParameters.getStudentId();
+        this.semester = configurationParameters.getSemester();
         this.parser = parser;
     }
 

@@ -7,9 +7,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Stag extends StagAbstract implements StagInterface {
 
-    public Stag(String apiUrl, String studentId, String semester, Parser parser)
+    public Stag(ConfigurationParameters configurationParameters, Parser parser)
     {
-        super(apiUrl, studentId, semester, parser);
+        super(configurationParameters, parser);
     }
 
     public TimeTable fetchCurrentTimetable()

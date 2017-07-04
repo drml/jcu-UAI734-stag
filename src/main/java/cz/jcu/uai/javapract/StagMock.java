@@ -7,9 +7,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class StagMock extends StagAbstract implements StagInterface {
 
-    public StagMock(String apiUrl, String studentId, String semester, Parser parser)
+    public StagMock(ConfigurationParameters configurationParameters, Parser parser)
     {
-        super(apiUrl, studentId, semester, parser);
+        super(configurationParameters, parser);
     }
 
     public String fetchCurrentTimetableJson()
