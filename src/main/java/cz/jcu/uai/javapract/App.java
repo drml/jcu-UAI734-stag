@@ -1,5 +1,7 @@
 package cz.jcu.uai.javapract;
 
+import sun.plugin.com.event.COMEventHandler;
+
 import javax.swing.*;
 
 /**
@@ -9,11 +11,24 @@ import javax.swing.*;
  */
 public class App 
 {
-    private Controler $controler;
-
-    public static void main( String[] args )
+    public static void main( String[] args ) throws NotConfiguredException
     {
         System.out.println( "Hello World!" );
+
+        Configuration configuration = new Configuration("congif.ini");      // probublbá výjimka, je to tak OK?
+
+        Parser parser = new Parser();
+        StagInterface stag = new StagMock(configuration.getProps(), parser);
+        Comparator comparator = new Comparator();
+        ITimetableDAO dao = new TimetableDAO("timetables.db");
+
+
+        Controler controler = new Controler(stag, comparator, dao, configuration.getProps());
+
+
+        // TODO: dodelat navazani a handlery
+
+        ///////// Jikovo věci ke GUI
 
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
