@@ -1,12 +1,13 @@
 package cz.jcu.uai.javapract;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class TimeTable {
+public class TimeTable implements Serializable {
 
 	private HashMap<Integer, HashMap<String,Subject>> content;
-	private  Date update;
+	private Date update;
 	
 	public TimeTable() {
 		// TODO Auto-generated constructor stub
@@ -68,6 +69,8 @@ public class TimeTable {
 	{
 		return update;
 	}
+
+
 
 
 

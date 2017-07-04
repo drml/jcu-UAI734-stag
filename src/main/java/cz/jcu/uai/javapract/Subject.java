@@ -1,8 +1,9 @@
 package cz.jcu.uai.javapract;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Subject {
+public class Subject implements Serializable {
 
 	private String name;
 	private int subjectCode;
