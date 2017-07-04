@@ -7,7 +7,7 @@ package cz.jcu.uai.javapract;
  */
 public enum SubjectType {
     CVICENI("Cv"),
-    PREDNASKA("Pr");
+    PREDNASKA("Př");
 
     private String represendation;
 

@@ -17,6 +17,8 @@ public class Subject {
 	private Date dateEndSubject;
 	private boolean act;
 
+	private String id;
+
 	public Subject(String typ,String name,int subjectCode,String subjectID, String timeStart, String timeEnd,int day,String building,String room ,Date dateStartSubject,Date dateEndSubject,boolean act) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
@@ -34,6 +36,9 @@ public class Subject {
 			type = SubjectType.CVICENI;
 		else
 			type = SubjectType.PREDNASKA;
+
+		this.id = subjectID + subjectCode + typ;
+
 	}
 
 	public String getName()
@@ -96,4 +101,14 @@ public class Subject {
 		return act;
 	}
 
+	public String getId()
+	{
+		return id;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.id;
+	}
 }
