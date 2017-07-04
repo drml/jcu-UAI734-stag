@@ -19,8 +19,6 @@ public enum SubjectType {
     @Override
     public String toString()
     {
-        return "SubjectType{" +
-                "represendation='" + represendation + '\'' +
-                '}';
+        return represendation;
     }
 }
