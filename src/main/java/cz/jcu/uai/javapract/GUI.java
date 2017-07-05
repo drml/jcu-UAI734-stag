@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by Drml on 4.7.2017.
@@ -21,6 +22,9 @@ public class GUI implements StateUpdateCallback {
     private Calendar actualTime;
 
     private RefreshCallback controler;
+    private Diff diff;
+
+    private HashSet<String> zmeny;
 
     public void registerRefreshCallback(RefreshCallback refreshCallback) {
         this.controler = refreshCallback;
@@ -155,13 +159,19 @@ public class GUI implements StateUpdateCallback {
 
     @Override
     public void updateState(Diff state) {
-      if (state == null) {
+      // kdyz neni zmena rozvrhu
+        if (state == null) {
           System.out.println("Up to date");
-          System.out.println("last change:"+ timeOfLastChange.getTime());
+          if (timeOfLastChange == actualTime)
+              System.out.println(timeOfLastChange.getTime());
+          else
+              System.out.println("last change:"+ timeOfLastChange.getTime());
+          if (diff == null)
+              System.out.println("first run of app");
       } else  {
-
+        // zmena rozvrhu
           timeOfLastChange.setTime(actualTime.getTime());
-
+          diff = state;
           System.out.println("Updatujeme");
           System.out.println(timeOfLastChange.getTime());
 
