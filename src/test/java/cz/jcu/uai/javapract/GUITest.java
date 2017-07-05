@@ -12,9 +12,17 @@ import java.util.HashMap;
  */
 public class GUITest extends TestCase {
     
-    private final GUI gui = new GUI();
+    private final GUI gui;
 
     public GUITest() throws MalformedURLException {
+
+        Configuration config = null;
+        try {
+            config = new Configuration("config.ini");
+        } catch (NotConfiguredException e) {
+            e.printStackTrace();
+        }
+        gui = new GUI(config);
     }
 
 

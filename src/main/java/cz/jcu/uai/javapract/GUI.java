@@ -20,6 +20,8 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
     private TrayIcon trayIcon;
     private SystemTray tray;
 
+    ConfigurationParameters config;
+
     private Calendar timeOfLastChange;
     private Calendar actualTime;
 
@@ -28,16 +30,22 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
     private Diff diff;
 
     private HashSet<String> zmeny;
-    private final URL url = new URL("https://wstag.jcu.cz/portal/studium/moje-studium");
+    private final URL url;
     private final URL urlOfFile;
-    private final File file = new File("C:\\Users\\Jirka\\Desktop\\test.txt");
+    private final File file;
 
     public void registerRefreshCallback(RefreshCallback refreshCallback) {
         this.controler = refreshCallback;
     }
 
 
-    GUI() throws MalformedURLException {
+    GUI(Configuration configuration) throws MalformedURLException {
+
+
+        config = configuration.getProps();
+        file = new File(configuration.getConfigFilename());
+        url = new URL(config.getDoubleClickUrl());
+
         zmeny = new HashSet<>();
         actualTime = Calendar.getInstance();
         timeOfLastChange = Calendar.getInstance();

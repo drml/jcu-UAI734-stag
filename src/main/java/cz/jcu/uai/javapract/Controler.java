@@ -49,16 +49,16 @@ public class Controler implements RefreshCallback {
      */
     private boolean doUpdate(){
 
-        return false;
+//        return false;
 
 
-//        TimeTable stagTimetable = stag.fetchCurrentTimetable();
-//        TimeTable lastKnown = dao.getLast();
-//
-//        if (comparator.diff(stagTimetable, lastKnown) != null) {
-//            dao.add(stagTimetable);
-//            return true;
-//        } return false;
+        TimeTable stagTimetable = stag.fetchCurrentTimetable();
+        TimeTable lastKnown = dao.getLast();
+
+        if (comparator.diff(stagTimetable, lastKnown) != null) {
+            dao.add(stagTimetable);
+            return true;
+        } return false;
 
     }
 
@@ -82,17 +82,15 @@ public class Controler implements RefreshCallback {
     public void refresh()
     {
 
-        displayErrorCallback.displayError("STAG nefunguje protoze Bakana!");
-        return;
 
-//        Diff changes = null;
-//        if(doUpdate()){
-//            changes = doDiff();
-//        }
-//
-//        if (changes == null) {
-//            stateUpdateCallback.updateState(null);
-//        }
+        Diff changes = null;
+        if(doUpdate()){
+            changes = doDiff();
+        }
+
+        if (changes == null) {
+            stateUpdateCallback.updateState(null);
+        }
 
 
     }

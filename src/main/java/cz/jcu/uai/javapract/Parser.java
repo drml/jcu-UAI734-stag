@@ -62,26 +62,30 @@ public class Parser {
                     datumEnd = datumObj2.getString("value");
                 }
 
+
                 int day;
-                System.out.println(jsonAkce);
-                switch(jsonAkce.getString("denZkr")) {
-                    case "Po":
-                        day = Calendar.MONDAY;
-                        break;
-                    case "Ut":
-                        day = Calendar.TUESDAY;
-                        break;
-                    case "St":
-                        day = Calendar.WEDNESDAY;
-                        break;
-                    case "Ct":
-                        day = Calendar.THURSDAY;
-                        break;
-                    case "Pa":
-                        day = Calendar.FRIDAY;
-                        break;
-                    default:
-                        day = Calendar.SUNDAY;  //Error
+                if (jsonAkce.isNull("denZkr")){     // predmety bez rozvrhu
+                    day = 0;
+                } else {
+                    switch(jsonAkce.getString("denZkr")) {
+                        case "Po":
+                            day = Calendar.MONDAY;
+                            break;
+                        case "Ut":
+                            day = Calendar.TUESDAY;
+                            break;
+                        case "St":
+                            day = Calendar.WEDNESDAY;
+                            break;
+                        case "Ct":
+                            day = Calendar.THURSDAY;
+                            break;
+                        case "Pa":
+                            day = Calendar.FRIDAY;
+                            break;
+                        default:
+                            day = Calendar.SUNDAY;  //Error
+                    }
                 }
 
                 //subject.ResetSubject();
@@ -97,8 +101,8 @@ public class Parser {
                     hodinaStart,
                     hodinaEnd,
                     day,
-                    jsonAkce.getString("budova"),
-                    jsonAkce.getString("mistnost"),
+                        (jsonAkce.isNull("budova") ? null : jsonAkce.getString("budova")),
+                        (jsonAkce.isNull("mistnost") ? null : jsonAkce.getString("mistnost")),
                     datumStart,
                     datumEnd,
                     konase

@@ -18,6 +18,12 @@ import java.util.Date;
 public class Configuration {
 
     private static final String INI_SECTION = "StagWatchdog";
+
+    public String getConfigFilename()
+    {
+        return configFilename;
+    }
+
     private String configFilename;
     private ConfigurationParameters props;
 
@@ -54,6 +60,7 @@ public class Configuration {
 
         props = new ConfigurationParameters(
                 get("apiUrl"),
+                get("doubleClickUrl"),
                 get("studentId"),
                 get("semester"),
                 Integer.parseInt(get("refreshRate"))
@@ -78,6 +85,7 @@ public class Configuration {
 
         // Example: http://stag-ws.jcu.cz/ws/services/rest/rozvrhy/getRozvrhByStudent?outputFormatEncoding=UTF-8&outputFormat=json&osCislo=B15254&semestr=ZS
         ini.add(INI_SECTION, "apiUrl", "http://stag-ws.jcu.cz/ws/services/rest/rozvrhy/getRozvrhByStudent?outputFormatEncoding=UTF-8&outputFormat=json");
+        ini.add(INI_SECTION, "doubleClickUrl", "https://wstag.jcu.cz/portal/studium/moje-studium");
         ini.add(INI_SECTION, "studentId", "B15254");
 
         SimpleDateFormat formater = new SimpleDateFormat("M");

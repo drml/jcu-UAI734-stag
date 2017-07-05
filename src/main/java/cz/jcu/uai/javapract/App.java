@@ -43,19 +43,17 @@ public class App
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Configuration configuration = new Configuration("congif.ini");      // probublbá výjimka, je to tak OK?
+                    Configuration configuration = new Configuration("config.ini");      // probublbá výjimka, je to tak OK?
 
                     Parser parser = new Parser();
-                    StagInterface stag = new StagMock(configuration.getProps(), parser);
+                    StagInterface stag = new Stag(configuration.getProps(), parser);
                     Comparator comparator = new Comparator();
-                    ITimetableDAO dao = new TimetableDAOMock();//("timetables.db");
+                    ITimetableDAO dao = new TimetableDAO("timetables.db");//("timetables.db");
 
 
                     Controler controler = new Controler(stag, comparator, dao, configuration.getProps());
 
-
-
-                    GUI gui = new GUI();
+                    GUI gui = new GUI(configuration);
 
                     gui.registerRefreshCallback(controler);
                     controler.registerStateUpdateCallback(gui);

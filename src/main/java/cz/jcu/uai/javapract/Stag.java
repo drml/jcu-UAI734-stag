@@ -41,7 +41,20 @@ public class Stag extends StagAbstract implements StagInterface {
 
     public TimeTable fetchCurrentTimetable()
     {
-        throw new NotImplementedException();
+        try {
+            return parser.parse(fetchCurrentTimetableJson());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String fetchCurrentTimetableJson() throws IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException  //vrati string

@@ -6,6 +6,7 @@ import java.util.*;
 
 public class TimeTable implements Serializable {
 
+	// Integer je cislo dne podle Calendar, kdyz den neni definovan, pak je 0
 	private HashMap<Integer, HashMap<String,Subject>> content;
 	private Date update;
 	
@@ -14,6 +15,8 @@ public class TimeTable implements Serializable {
 		this.content= new HashMap<Integer, HashMap<String, Subject>>();
 //		this.content.put(Calendar.MONDAY, new HashMap<String, Subject>());
 //		this.content.put(Calendar.TUESDAY, new HashMap<String, Subject>());
+
+
 	}
 
 	/**
