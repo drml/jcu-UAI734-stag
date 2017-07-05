@@ -1,9 +1,10 @@
 package cz.jcu.uai.javapract;
 
-import com.sun.deploy.net.HttpResponse;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import sun.net.www.http.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.BufferedReader;
@@ -29,19 +30,20 @@ public class Stag extends StagAbstract implements StagInterface {
 
     public String fetchCurrentTimetableJson() throws ClientProtocolException, IOException  //vrati string
     {
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
 
 
 
-        HttpClient client = new HttpClient(seznam.cz);
-        HttpGet request = new HttpGet('http://restUrl');
+        HttpClient client = new DefaultHttpClient();
+        HttpGet request = new HttpGet(apiUrl); // TODO: dodelat tam GET parametry ""
         HttpResponse response = client.execute(request);
         BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
         String line = "";
         while ((line = rd.readLine()) != null) {
             System.out.println(line);
-       }
+        }
 
+        return line;
 
         // NÁPOVĚDKA :)
         // Zdroj: https://www.javacodegeeks.com/2012/09/simple-rest-client-in-java.html
@@ -56,6 +58,8 @@ public class Stag extends StagAbstract implements StagInterface {
 //            System.out.println(line);
 //        }
 //    }
+
+
 
     }
 }
