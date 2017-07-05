@@ -15,6 +15,12 @@ public class Controler implements RefreshCallback {
     private ConfigurationParameters config;
 
     private StateUpdateCallback stateUpdateCallback;
+    private DisplayErrorCallback displayErrorCallback;
+
+    public void registerDisplayErrorCallback(DisplayErrorCallback displayErrorCallback)
+    {
+        this.displayErrorCallback = displayErrorCallback;
+    }
 
     public Controler(StagInterface stag, Comparator comparator, ITimetableDAO dao, ConfigurationParameters config)
     {
@@ -76,14 +82,17 @@ public class Controler implements RefreshCallback {
     public void refresh()
     {
 
-        Diff changes = null;
-        if(doUpdate()){
-            changes = doDiff();
-        }
+        displayErrorCallback.displayError("STAG nefunguje protoze Bakana!");
+        return;
 
-        if (changes == null) {
-            stateUpdateCallback.updateState(null);
-        }
+//        Diff changes = null;
+//        if(doUpdate()){
+//            changes = doDiff();
+//        }
+//
+//        if (changes == null) {
+//            stateUpdateCallback.updateState(null);
+//        }
 
 
     }
