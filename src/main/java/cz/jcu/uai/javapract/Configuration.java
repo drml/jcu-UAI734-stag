@@ -75,7 +75,9 @@ public class Configuration {
             e.printStackTrace();
             throw new NotConfiguredException("Nepodarilo se vztvorit INI soubor, zkontrolujte cestu");
         }
-        ini.add(INI_SECTION, "apiUrl", "http:/wstag.jcu.cz");
+
+        // Example: https://stag-ws.jcu.cz/ws/services/rest/rozvrhy/getRozvrhByStudent?outputFormatEncoding=UTF-8&outputFormat=json&osCislo=B15254&semestr=ZS
+        ini.add(INI_SECTION, "apiUrl", "https://stag-ws.jcu.cz/ws/services/rest/rozvrhy/getRozvrhByStudent?outputFormatEncoding=UTF-8&outputFormat=json");
         ini.add(INI_SECTION, "studentId", "B15254");
 
         SimpleDateFormat formater = new SimpleDateFormat("M");
