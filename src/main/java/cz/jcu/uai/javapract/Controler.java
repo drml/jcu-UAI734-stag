@@ -25,7 +25,7 @@ public class Controler implements RefreshCallback {
     }
 
 
-    private void doDiff(){
+    private Diff doDiff(){
 
         Diff diff = comparator.diff(dao.getOneBeforeLast(),dao.getLast());
 
@@ -34,6 +34,7 @@ public class Controler implements RefreshCallback {
             stateUpdateCallback.updateState(diff);
         }
 
+        return diff;
     }
 
     /**
@@ -42,7 +43,7 @@ public class Controler implements RefreshCallback {
      */
     private boolean doUpdate(){
 
-        return true;
+        return false;
 
 
 //        TimeTable stagTimetable = stag.fetchCurrentTimetable();
@@ -74,8 +75,17 @@ public class Controler implements RefreshCallback {
 
     public void refresh()
     {
-        doUpdate();
-        doDiff();
+
+        Diff changes = null;
+        if(doUpdate()){
+            changes = doDiff();
+        }
+
+        if (changes == null) {
+            stateUpdateCallback.updateState(null);
+        }
+
+
     }
     
     public void registerStateUpdateCallback(StateUpdateCallback stateUpdateCallback)
