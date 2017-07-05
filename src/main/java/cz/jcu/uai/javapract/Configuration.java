@@ -73,7 +73,7 @@ public class Configuration {
             ini = new Wini(new File(configFilename));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new NotConfiguredException("Nepodarilo se vztvorit INI soubor, zkontrolujte cestu");
+            throw new NotConfiguredException("Nepodarilo se vytvorit INI soubor, zkontrolujte cestu");
         }
 
         // Example: https://stag-ws.jcu.cz/ws/services/rest/rozvrhy/getRozvrhByStudent?outputFormatEncoding=UTF-8&outputFormat=json&osCislo=B15254&semestr=ZS
