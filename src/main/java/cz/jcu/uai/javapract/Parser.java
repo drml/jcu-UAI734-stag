@@ -4,6 +4,9 @@ import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.json.*;
 
 
@@ -22,15 +25,17 @@ public class Parser {
      * @param json
      * @return
      */
-    public ArrayList<Subject> parse(String json){
+    public TimeTable parse(String json){
         //TODO: implement
-        splitJSON(json);
-        return listOfSubject;
+        TimeTable rozvrh = new TimeTable();
+        rozvrh.CreateTimeTable(new Date(),splitJSON(json));
+        return rozvrh;
     }
 
-    public void splitJSON(String json){
+    public ArrayList<Subject> splitJSON(String json){
 
-//        JSONObject obj = new JSONObject(json);
+        ArrayList<Subject> listOfSubject = new ArrayList<>();
+
         JSONArray vnejsiPole = new JSONArray(json);
 
         JSONObject vnejsiobj = (JSONObject) vnejsiPole.get(0);
@@ -38,26 +43,72 @@ public class Parser {
 
         for(Object akce : rozvrhoveAkce){
             JSONObject jsonAkce = (JSONObject) akce;
-//            if (jsonAkce.get(""))
+            if (jsonAkce.isNull("roakIdno"))
+                continue;
+            else{
+                JSONObject hodinaObj = jsonAkce.getJSONObject("hodinaSkutOd");
+                String hodinaStart = hodinaObj.getString("value");
+                JSONObject hodinaObj2 = jsonAkce.getJSONObject("hodinaSkutDo");
+                String hodinaEnd = hodinaObj2.getString("value");
 
-            JSONObject hodinaObj = jsonAkce.getJSONObject("hodinaSkutOd");
-            String hodina = hodinaObj.getString("value");
 
-            System.out.println(jsonAkce.get("hodinaSkutOd"));
+                String datumStart = null;
+                String datumEnd = null;
 
+                if (!jsonAkce.isNull("datumOd") || !jsonAkce.isNull("datumDo")) {
+                    JSONObject datumObj = jsonAkce.getJSONObject("datumOd");
+                    datumStart = datumObj.getString("value");
+                    JSONObject datumObj2 = jsonAkce.getJSONObject("datumDo");
+                    datumEnd = datumObj2.getString("value");
+                }
+
+                int day;
+                switch(jsonAkce.getString("denZkr")) {
+                    case "Po":
+                        day = Calendar.MONDAY;
+                        break;
+                    case "Ut":
+                        day = Calendar.TUESDAY;
+                        break;
+                    case "St":
+                        day = Calendar.WEDNESDAY;
+                        break;
+                    case "Ct":
+                        day = Calendar.THURSDAY;
+                        break;
+                    case "Pa":
+                        day = Calendar.FRIDAY;
+                        break;
+                    default:
+                        day = Calendar.SUNDAY;  //Error
+                }
+
+                //subject.ResetSubject();
+                Boolean konase = false;
+                if (jsonAkce.isNull("nekonaSe"))
+                    konase = true;
+
+                subject = new Subject(
+                    jsonAkce.getString("typAkceZkr"),
+                    jsonAkce.getString("nazev"),
+                    jsonAkce.getInt("predmet"),
+                    jsonAkce.getString("katedra"),
+                    hodinaStart,
+                    hodinaEnd,
+                    day,
+                    jsonAkce.getString("budova"),
+                    jsonAkce.getString("mistnost"),
+                    datumStart,
+                    datumEnd,
+                    konase
+                );
+
+                    listOfSubject.add(subject);
+            }
 
         }
 
-
-
-//        String[] str = new String[5];
-//        str[0] = obj.getJSONObject("nazev").toString();
-//        str[1] = obj.getJSONObject("katedra").toString();
-//        str[2] = obj.getJSONObject("budova").toString();
-//        str[3] = obj.getJSONObject("mistnost").toString();
-//        str[4] = obj.getJSONObject("nazev").toString();
-
-
+        return listOfSubject;
 
     }
 
