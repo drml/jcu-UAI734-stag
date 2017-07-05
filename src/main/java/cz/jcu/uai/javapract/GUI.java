@@ -60,6 +60,7 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
                     for (Map.Entry<String, Subject> entryold : diff.getOldSubjects().entrySet()) {
                         String key = entryold.getKey();
                         if (key == setItem) {
+                            finalni.append("○ ");
                             finalni.append(item.getName() + " ");
                             finalni.append(item.getSubjectID() + " ");
                             finalni.append(item.getSubjectCode() + " ");
@@ -69,6 +70,7 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
                 }else {
                     String key = entry.getKey();
                     if (key == setItem) {
+                        finalni.append("○ ");
                         finalni.append(item.getName() + " ");
                         finalni.append(item.getSubjectID() + " ");
                         finalni.append(item.getSubjectCode() + " ");
@@ -122,7 +124,7 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (e.getButton() == MouseEvent.BUTTON1) {
+                if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                    openWebpage(url);
                 }
             }

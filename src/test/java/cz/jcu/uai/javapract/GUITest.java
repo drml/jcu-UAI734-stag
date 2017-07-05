@@ -63,7 +63,9 @@ public class GUITest extends TestCase {
         gui.updateState(mockDiff);
         
         gui.updateState(null);
-        
+
+        gui.displayError("test error");
+
     }
 
 }
