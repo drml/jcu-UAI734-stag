@@ -15,13 +15,14 @@ import java.util.*;
  * Created by Drml on 4.7.2017.
  */
 @SuppressWarnings("ALL")
-public class GUI implements StateUpdateCallback{
+public class GUI implements StateUpdateCallback, DisplayErrorCallback{
 
     private TrayIcon trayIcon;
     private SystemTray tray;
 
     private Calendar timeOfLastChange;
     private Calendar actualTime;
+
 
     private RefreshCallback controler;
     private Diff diff;
@@ -33,6 +34,7 @@ public class GUI implements StateUpdateCallback{
     public void registerRefreshCallback(RefreshCallback refreshCallback) {
         this.controler = refreshCallback;
     }
+
 
     GUI() throws MalformedURLException {
         zmeny = new HashSet<>();
@@ -76,7 +78,7 @@ public class GUI implements StateUpdateCallback{
 
             }
         }
-        finalni.append("\nDoubleClick on Icon in tray to open STAG ");
+        finalni.append("DoubleClick on Icon in tray to open STAG ");
         return finalni.toString();
     }
 
@@ -196,6 +198,11 @@ public class GUI implements StateUpdateCallback{
             trayIcon.displayMessage("TimeTable Changed", "Changes in subjects:\n "+formatToHumanReadable(diff),TrayIcon.MessageType.WARNING );
       }
 
+    }
+
+    @Override
+    public void displayError(String message) {
+        trayIcon.displayMessage("Error occured", message,TrayIcon.MessageType.ERROR );
     }
 
 
