@@ -3,20 +3,19 @@ package cz.jcu.uai.javapract;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by Drml on 4.7.2017.
  */
 @SuppressWarnings("ALL")
-public class GUI implements StateUpdateCallback {
+public class GUI implements StateUpdateCallback{
 
     private TrayIcon trayIcon;
     private SystemTray tray;
@@ -28,7 +27,8 @@ public class GUI implements StateUpdateCallback {
     private Diff diff;
 
     private HashSet<String> zmeny;
-
+    private final URL url = new URL("https://wstag.jcu.cz/portal/studium/moje-studium");
+    private final File file = new File("C:\\Users\\Jirka\\Desktop\\test.txt");
 
     public void registerRefreshCallback(RefreshCallback refreshCallback) {
         this.controler = refreshCallback;
@@ -38,19 +38,29 @@ public class GUI implements StateUpdateCallback {
         zmeny = new HashSet<>();
         actualTime = Calendar.getInstance();
         timeOfLastChange = Calendar.getInstance();
+
         createMenu();
 
     }
 
 
-    public void displayChanges(HashMap<String, Subject> oldSubjects, HashMap<String, Subject> newSubjects){
-
-    }
-
     private String formatToHumanReadable(Diff diff){
         zmeny.addAll(diff.getOldSubjects().keySet());
         zmeny.addAll(diff.getNewSubjects().keySet());
-        return zmeny.toString();
+
+        StringBuilder finalni = new StringBuilder();
+
+        Iterator it = zmeny.iterator();
+        while(it.hasNext()){
+            StringBuilder upravy = new StringBuilder();
+            upravy.append((String)it.next());
+            upravy.delete(6,8);
+            finalni.append(upravy+", ");
+
+        }
+        finalni.deleteCharAt(finalni.length()-1);
+        finalni.append("\nDoubleClick on Icon in tray to open STAG ");
+        return finalni.toString();
     }
 
     protected void createMenu() throws MalformedURLException {
@@ -68,7 +78,8 @@ public class GUI implements StateUpdateCallback {
 
         // Create a popup menu components
         MenuItem aboutItem = new MenuItem("About");
-        MenuItem test = new MenuItem("TEST");
+        MenuItem test = new MenuItem("Check for update");
+        MenuItem config = new MenuItem("Config");
         MenuItem exitItem = new MenuItem("Exit");
 
         //Add components to popup menu
@@ -76,6 +87,7 @@ public class GUI implements StateUpdateCallback {
         popup.addSeparator();
         popup.add(test);
         popup.addSeparator();
+        popup.add(config);
         popup.add(exitItem);
 
         trayIcon.setPopupMenu(popup);
@@ -87,24 +99,52 @@ public class GUI implements StateUpdateCallback {
             return;
         }
 
-        trayIcon.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,
-                        "This dialog box is run from System Tray");
+        trayIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                   openWebpage(url);
+                }
             }
         });
+
 
         aboutItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
-                        "Aplikace na detekci zmen v rozvrhu. Praktikum programovani v jave\n" +
+                        "JCU Stag TimeTable WatchDog\n\nDoubleClick to open timetable in browser\nRightClick to show MENU\n\n" +
+                                "Aplikace na detekci zmen v rozvrhu. \nPraktikum programovani v jave\n" +
                                 "Tym : Ondrej Doktor, Jiri Hauser, Jakub Kocum, Kaja Pestova\n" +
-                                "2017 - github: https://github.com/drml/jcu-UAI734-stag.git");
+                                "2017\ngithub: https://github.com/drml/jcu-UAI734-stag.git");
             }
         });
 
-        test.addActionListener(new ShowMessageListener(trayIcon, "Warning Title", "Warning", TrayIcon.MessageType.WARNING));
+        test.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                controler.refresh();
+                System.out.println("refresh action");
+            }
+        });
 
+        //test.addActionListener(new ShowMessageListener(trayIcon, "Warning Title", "Warning", TrayIcon.MessageType.WARNING));
+        config.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (Desktop.isDesktopSupported()) {
+                    System.out.println("config file opening");
+                    try {
+                        Desktop.getDesktop().edit(file);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    System.out.println("config cannot be opened");
+                }
+
+            }
+        });
         exitItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tray.remove(trayIcon);
@@ -121,8 +161,10 @@ public class GUI implements StateUpdateCallback {
       // kdyz neni zmena rozvrhu
         if (state == null) {
           System.out.println("Up to date");
+            trayIcon.displayMessage("No Changes", "Timetable is up to date\nLast Changed: "+timeOfLastChange.getTime(),TrayIcon.MessageType.INFO );
           if (timeOfLastChange == actualTime)
               System.out.println(timeOfLastChange.getTime());
+
           else
               System.out.println("last change:"+ timeOfLastChange.getTime());
           if (diff == null)
@@ -134,6 +176,7 @@ public class GUI implements StateUpdateCallback {
           System.out.println("Updatujeme");
           System.out.println(timeOfLastChange.getTime());
           System.out.println(formatToHumanReadable(state));
+            trayIcon.displayMessage("TimeTable Changed", "Changes in subjects:\n "+formatToHumanReadable(state),TrayIcon.MessageType.WARNING );
       }
 
     }
