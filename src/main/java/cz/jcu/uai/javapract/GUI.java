@@ -4,23 +4,42 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by Drml on 4.7.2017.
  */
 @SuppressWarnings("ALL")
-public class GUI {
+public class GUI implements StateUpdateCallback {
 
-    GUI(){
-        createMenu();
+    private TrayIcon trayIcon;
+    private SystemTray tray;
+
+    private Calendar timeOfLastChange;
+    private Calendar actualTime;
+
+    private RefreshCallback controler;
+    private Diff diff;
+
+    private HashSet<String> zmeny;
+
+    public void registerRefreshCallback(RefreshCallback refreshCallback) {
+        this.controler = refreshCallback;
     }
 
+    GUI(){
+        actualTime = Calendar.getInstance();
+        timeOfLastChange = Calendar.getInstance();
+        createMenu();
+
+    }
+
+
     public void displayChanges(HashMap<String, Subject> oldSubjects, HashMap<String, Subject> newSubjects){
-        // TODO: implement
+
     }
 
     private String formatToHumanReadable(HashMap<String, Subject> oldSubjects, HashMap<String, Subject> newSubjects){
@@ -28,7 +47,7 @@ public class GUI {
         return null;
     }
 
-    private void createMenu(){
+    protected void createMenu() {
         //Check the SystemTray support
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
@@ -37,15 +56,13 @@ public class GUI {
 
         final PopupMenu popup = new PopupMenu();
 
-        Image image = Toolkit.getDefaultToolkit().getImage("target/artifacts/images/logo.gif");
-        final TrayIcon trayIcon =
-                new TrayIcon(image, "tray demo", popup);
-        final SystemTray tray = SystemTray.getSystemTray();
+        Image image = Toolkit.getDefaultToolkit().getImage("target/artifacts/images/logo.png");
+        trayIcon = new TrayIcon(image, "Stag Watchdog", popup);
+        tray = SystemTray.getSystemTray();
 
         // Create a popup menu components
         MenuItem aboutItem = new MenuItem("About");
-        CheckboxMenuItem cb1 = new CheckboxMenuItem("Set auto size");
-        CheckboxMenuItem cb2 = new CheckboxMenuItem("Set tooltip");
+
         Menu displayMenu = new Menu("Display");
         MenuItem errorItem = new MenuItem("Error");
         MenuItem warningItem = new MenuItem("Warning");
@@ -56,9 +73,6 @@ public class GUI {
         //Add components to popup menu
         popup.add(aboutItem);
         popup.addSeparator();
-        popup.add(cb1);
-        popup.add(cb2);
-        popup.addSeparator();
         popup.add(displayMenu);
         displayMenu.add(errorItem);
         displayMenu.add(warningItem);
@@ -67,6 +81,8 @@ public class GUI {
         popup.add(exitItem);
 
         trayIcon.setPopupMenu(popup);
+
+
 
         try {
             tray.add(trayIcon);
@@ -85,41 +101,30 @@ public class GUI {
         aboutItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
-                        "This dialog box is run from the About menu item");
+                        "Aplikace na detekci zmen v rozvrhu. Praktikum programovani v jave\n" +
+                                "Tym : Ondrej Doktor, Jiri Hauser, Jakub Kocum, Kaja Pestova\n" +
+                                "2017 - github: https://github.com/drml/jcu-UAI734-stag.git");
             }
         });
 
-        cb1.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                int cb1Id = e.getStateChange();
-                if (cb1Id == ItemEvent.SELECTED){
-                    trayIcon.setImageAutoSize(true);
-                } else {
-                    trayIcon.setImageAutoSize(false);
-                }
-            }
-        });
-
-        cb2.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                int cb2Id = e.getStateChange();
-                if (cb2Id == ItemEvent.SELECTED){
-                    trayIcon.setToolTip("Sun TrayIcon");
-                } else {
-                    trayIcon.setToolTip(null);
-                }
-            }
-        });
 
         ActionListener listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MenuItem item = (MenuItem)e.getSource();
+                MenuItem item = (MenuItem) e.getSource();
                 //TrayIcon.MessageType type = null;
                 System.out.println(item.getLabel());
                 if ("Error".equals(item.getLabel())) {
                     //type = TrayIcon.MessageType.ERROR;
                     trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is an error message", TrayIcon.MessageType.ERROR);
+                            "This is an error message" +
+                                    "This is an error message" +
+                                    "This is an error message" +
+                                    "This is an error message" +
+                                    "This is an error message" +
+                                    "This is an error messageThis is an error messageThis is an error messageThis is an error messageThis is an error messageThis is an error messageThis is an error message" +
+                                    "This is an error message" +
+                                    "" +
+                                    "", TrayIcon.MessageType.ERROR);
 
                 } else if ("Warning".equals(item.getLabel())) {
                     //type = TrayIcon.MessageType.WARNING;
@@ -151,15 +156,26 @@ public class GUI {
             }
         });
     }
-    //Obtain the image URL
-    protected static Image createImage(String path, String description) {
-        URL imageURL = GUI.class.getResource(path);
 
-        if (imageURL == null) {
-            System.err.println("Resource not found: " + path);
-            return null;
-        } else {
-            return (new ImageIcon(imageURL, description)).getImage();
-        }
+    @Override
+    public void updateState(Diff state) {
+      // kdyz neni zmena rozvrhu
+        if (state == null) {
+          System.out.println("Up to date");
+          if (timeOfLastChange == actualTime)
+              System.out.println(timeOfLastChange.getTime());
+          else
+              System.out.println("last change:"+ timeOfLastChange.getTime());
+          if (diff == null)
+              System.out.println("first run of app");
+      } else  {
+        // zmena rozvrhu
+          timeOfLastChange.setTime(actualTime.getTime());
+          diff = state;
+          System.out.println("Updatujeme");
+          System.out.println(timeOfLastChange.getTime());
+
+      }
+
     }
 }
