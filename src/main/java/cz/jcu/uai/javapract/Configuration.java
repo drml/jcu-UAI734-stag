@@ -3,6 +3,7 @@ package cz.jcu.uai.javapract;
 import org.ini4j.Wini;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,6 +47,7 @@ public class Configuration {
     {
         try {
             ini = new Wini(new File(configFilename));
+            ini.load();
         } catch (IOException e) {
             this.restoreDefaults();
         }
@@ -65,6 +67,14 @@ public class Configuration {
      */
     private void restoreDefaults() throws NotConfiguredException
     {
+        File newFile = new File(configFilename);
+        try {
+            newFile.createNewFile();
+            ini = new Wini(new File(configFilename));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new NotConfiguredException("Nepodarilo se vztvorit INI soubor, zkontrolujte cestu");
+        }
         ini.add(INI_SECTION, "apiUrl", "http:/wstag.jcu.cz");
         ini.add(INI_SECTION, "studentId", "B15254");
 
@@ -77,7 +87,7 @@ public class Configuration {
             ini.add(INI_SECTION, "semester", "LS");
         }
 
-        ini.add(INI_SECTION, "refresh", "60");
+        ini.add(INI_SECTION, "refreshRate", "60");
 
         try {
             ini.store();
