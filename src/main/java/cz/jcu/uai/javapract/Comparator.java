@@ -40,6 +40,19 @@ public class Comparator {
 
         // jeste jednou pro allNewSubjects
 
+        HashMap<String, Subject> allNewSubjects = new HashMap<String, Subject>();
+
+        for (Map.Entry<Integer, HashMap<String, Subject>> polozka : newTable.getContent().entrySet())
+        {
+            for (Map.Entry<String, Subject> predmet : polozka.getValue().entrySet()){
+
+                allNewSubjects.put(predmet.getKey(),predmet.getValue());
+
+            }
+
+        }
+
+        //co dělat když bude nových předmětů více než starých
         HashMap<String, Subject> masterSeznam;
         if (allOldSubjects.size() > allNewSubjects.size()){
             masterSeznam = allOldSubjects;
@@ -49,6 +62,7 @@ public class Comparator {
 
         // porovnani
         HashMap<String, Subject> changedOld = new HashMap<String, Subject>();
+        HashMap<String, Subject> changedNew = new HashMap<String, Subject>();
         //new
 
         for (Map.Entry<String, Subject> stary : masterSeznam.entrySet()){
@@ -63,7 +77,16 @@ public class Comparator {
                 // polozku po polozce
 
                 if (staryPredmet.getBuilding() != novyPredmet.getBuilding())     zmena = true;
-//                if (staryPredmet.getBuilding() != novyPredmet.getBuilding())     zmena = true;
+                if (staryPredmet.getDateEndSubject() != novyPredmet.getDateEndSubject()) zmena= true;
+                if (staryPredmet.getDateStartSubject() != novyPredmet.getDateStartSubject()) zmena= true;
+                if (staryPredmet.isAct() != novyPredmet.isAct()) zmena= true;
+                if (staryPredmet.getDay() != novyPredmet.getDay()) zmena= true;
+                if (staryPredmet.getName() != novyPredmet.getName()) zmena= true;
+                if (staryPredmet.getId() != novyPredmet.getId()) zmena= true;
+                if (staryPredmet.getRoom() != novyPredmet.getRoom()) zmena= true;
+                if (staryPredmet.getType() != novyPredmet.getType()) zmena= true;
+                if (staryPredmet.getTimeStart() != novyPredmet.getTimeStart()) zmena= true;
+                if (staryPredmet.getTimeEnd() != novyPredmet.getTimeEnd()) zmena= true;
 
 
             }
