@@ -15,15 +15,15 @@ public class App
     {
         System.out.println( "Hello World!" );
 
-        Configuration configuration = new Configuration("congif.ini");      // probublbá výjimka, je to tak OK?
-
-        Parser parser = new Parser();
-        StagInterface stag = new StagMock(configuration.getProps(), parser);
-        Comparator comparator = new Comparator();
-        ITimetableDAO dao = new TimetableDAO("timetables.db");
-
-
-        Controler controler = new Controler(stag, comparator, dao, configuration.getProps());
+//        Configuration configuration = new Configuration("congif.ini");      // probublbá výjimka, je to tak OK?
+//
+//        Parser parser = new Parser();
+//        StagInterface stag = new StagMock(configuration.getProps(), parser);
+//        Comparator comparator = new Comparator();
+//        ITimetableDAO dao = new TimetableDAO("timetables.db");
+//
+//
+//        Controler controler = new Controler(stag, comparator, dao, configuration.getProps());
 
 
         // TODO: dodelat navazani a handlery

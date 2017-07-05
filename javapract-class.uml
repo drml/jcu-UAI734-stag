@@ -3,85 +3,22 @@
   <ID>JAVA</ID>
   <OriginalElement>cz.jcu.uai.javapract</OriginalElement>
   <nodes>
-    <node x="168.5" y="160.0">cz.jcu.uai.javapract.TimeTable</node>
-    <node x="0.0" y="240.0">cz.jcu.uai.javapract.GUI</node>
-    <node x="191.0" y="240.0">cz.jcu.uai.javapract.Comparator</node>
-    <node x="87.94444444444444" y="80.0">cz.jcu.uai.javapract.Subject</node>
-    <node x="325.0" y="240.0">cz.jcu.uai.javapract.Stag</node>
-    <node x="153.0" y="400.0">cz.jcu.uai.javapract.App</node>
-    <node x="89.0" y="240.0">cz.jcu.uai.javapract.Parser</node>
-    <node x="443.0" y="0.0">cz.jcu.uai.javapract.AppTest</node>
-    <node x="74.94444444444447" y="0.0">cz.jcu.uai.javapract.SubjectType</node>
-    <node x="38.715277777777786" y="160.0">cz.jcu.uai.javapract.Diff</node>
-    <node x="139.0" y="320.0">cz.jcu.uai.javapract.Controler</node>
+    <node x="430.7083333333333" y="485.0">cz.jcu.uai.javapract.App</node>
+    <node x="316.2447916666667" y="388.0">cz.jcu.uai.javapract.Controler</node>
+    <node x="183.0" y="194.0">cz.jcu.uai.javapract.Diff</node>
+    <node x="8.0" y="194.0">cz.jcu.uai.javapract.TimeTable</node>
+    <node x="510.0" y="291.0">cz.jcu.uai.javapract.GUI</node>
+    <node x="0.0" y="291.0">cz.jcu.uai.javapract.Comparator</node>
+    <node x="230.66666666666666" y="97.0">cz.jcu.uai.javapract.Subject</node>
+    <node x="379.0" y="291.0">cz.jcu.uai.javapract.Stag</node>
+    <node x="307.0" y="194.0">cz.jcu.uai.javapract.Parser</node>
+    <node x="0.0" y="577.0">cz.jcu.uai.javapract.AppTest</node>
+    <node x="211.66666666666666" y="0.0">cz.jcu.uai.javapract.SubjectType</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="cz.jcu.uai.javapract.Parser" target="cz.jcu.uai.javapract.TimeTable">
-      <point x="27.333333333333343" y="-15.0" />
-      <point x="157.33333333333334" y="215.0" />
-      <point x="195.0" y="215.0" />
-      <point x="-26.5" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Parser" target="cz.jcu.uai.javapract.Subject">
-      <point x="0.0" y="-15.0" />
-      <point x="129.21527777777777" y="135.0" />
-      <point x="143.56944444444446" y="135.0" />
-      <point x="11.125" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.TimeTable" target="cz.jcu.uai.javapract.Subject">
-      <point x="0.0" y="-15.0" />
-      <point x="221.5" y="135.0" />
-      <point x="165.81944444444446" y="135.0" />
-      <point x="33.37500000000003" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Controler" target="cz.jcu.uai.javapract.Parser">
-      <point x="-12.5" y="-15.0" />
-      <point x="176.5" y="290.0" />
-      <point x="130.0" y="290.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Comparator" target="cz.jcu.uai.javapract.TimeTable">
-      <point x="0.0" y="-15.0" />
-      <point x="26.5" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.App" target="cz.jcu.uai.javapract.Controler">
-      <point x="0.0" y="-15.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Controler" target="cz.jcu.uai.javapract.GUI">
-      <point x="-37.5" y="-15.0" />
-      <point x="151.5" y="300.0" />
-      <point x="34.5" y="300.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Controler" target="cz.jcu.uai.javapract.Comparator">
-      <point x="12.5" y="-15.0" />
-      <point x="201.5" y="290.0" />
-      <point x="248.0" y="290.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Subject" target="cz.jcu.uai.javapract.SubjectType">
-      <point x="2.8421709430404007E-14" y="-15.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Diff" target="cz.jcu.uai.javapract.Subject">
-      <point x="0.0" y="-15.0" />
-      <point x="73.21527777777779" y="135.0" />
-      <point x="99.06944444444444" y="135.0" />
-      <point x="-33.375" y="15.0" />
-    </edge>
-    <edge source="cz.jcu.uai.javapract.Controler" target="cz.jcu.uai.javapract.Stag">
-      <point x="37.5" y="-15.0" />
-      <point x="226.5" y="300.0" />
-      <point x="361.5" y="300.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="173.0" y="488.5" />
-  <SelectedNodes>
-    <node>cz.jcu.uai.javapract.TimeTable</node>
-  </SelectedNodes>
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="173.0" y="248.5" />
+  <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
