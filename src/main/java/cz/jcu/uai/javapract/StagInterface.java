@@ -1,6 +1,9 @@
 package cz.jcu.uai.javapract;
 
 
+import org.apache.http.client.ClientProtocolException;
+import java.io.IOException;;
+
 /**
  * Created by Drml on 4.7.2017.
  */
@@ -11,7 +14,7 @@ public interface StagInterface {
      *
      * @return JSON encoded timetable
      */
-    public String fetchCurrentTimetableJson();
+    public String fetchCurrentTimetableJson()throws ClientProtocolException, IOException;
 
     /**
      * Requests current timetable
