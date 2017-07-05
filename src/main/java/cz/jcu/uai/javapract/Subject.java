@@ -46,6 +46,20 @@ public class Subject implements Serializable {
 
 	}
 
+	public void ResetSubject(){
+		this.name = null;
+		this.subjectID = null;
+		this.subjectCode = 0;
+		this.timeStart = null;
+		this.timeEnd = null;
+		this.day = 8;
+		this.building = null;
+		this.room = null;
+		this.dateStartSubject = null;
+		this.dateEndSubject = null;
+		this.act = true;
+	}
+
 	public String getName()
 	{
 		return name;

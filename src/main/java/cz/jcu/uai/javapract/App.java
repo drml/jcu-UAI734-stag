@@ -1,6 +1,5 @@
 package cz.jcu.uai.javapract;
 
-import sun.plugin.com.event.COMEventHandler;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
