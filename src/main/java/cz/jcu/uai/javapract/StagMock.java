@@ -24,8 +24,11 @@ public class StagMock extends StagAbstract implements StagInterface {
 
     public TimeTable fetchCurrentTimetable()
     {
+        return parser.parse(this.fetchCurrentTimetableJson());
+
+
 //        return new TimeTable();
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     }
 
 }

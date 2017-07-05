@@ -42,13 +42,16 @@ public class Controler implements RefreshCallback {
      */
     private boolean doUpdate(){
 
-        TimeTable stagTimetable = stag.fetchCurrentTimetable();
-        TimeTable lastKnown = dao.getLast();
+        return true;
 
-        if (comparator.diff(stagTimetable, lastKnown) != null) {
-            dao.add(stagTimetable);
-            return true;
-        } return false;
+
+//        TimeTable stagTimetable = stag.fetchCurrentTimetable();
+//        TimeTable lastKnown = dao.getLast();
+//
+//        if (comparator.diff(stagTimetable, lastKnown) != null) {
+//            dao.add(stagTimetable);
+//            return true;
+//        } return false;
 
     }
 
