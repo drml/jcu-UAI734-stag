@@ -2,6 +2,7 @@ package cz.jcu.uai.javapract;
 
 import java.sql.Time;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -52,23 +53,21 @@ public class Comparator {
 
         }
 
-        //co dělat když bude nových předmětů více než starých
-        HashMap<String, Subject> masterSeznam;
-        if (allOldSubjects.size() > allNewSubjects.size()){
-            masterSeznam = allOldSubjects;
-        } else {
-            masterSeznam = allNewSubjects;
-        }
+        // vsechny klice
+        HashSet<String> allKeys = new HashSet<String>();
+        allKeys.addAll(allOldSubjects.keySet());
+        allKeys.addAll(allNewSubjects.keySet());
+
 
         // porovnani
         HashMap<String, Subject> changedOld = new HashMap<String, Subject>();
         HashMap<String, Subject> changedNew = new HashMap<String, Subject>();
         //new
 
-        for (Map.Entry<String, Subject> stary : masterSeznam.entrySet()){
+        for (String key : allKeys){
 
-            Subject staryPredmet = allOldSubjects.get(stary.getValue());
-            Subject novyPredmet = allNewSubjects.get(stary.getKey());
+            Subject staryPredmet = allOldSubjects.get(key);
+            Subject novyPredmet = allNewSubjects.get(key);
             boolean zmena = false;
 
             if (novyPredmet == null || staryPredmet == null){
@@ -76,36 +75,33 @@ public class Comparator {
             } else {
                 // polozku po polozce
 
-                if (staryPredmet.getBuilding() != novyPredmet.getBuilding())     zmena = true;
-                if (staryPredmet.getDateEndSubject() != novyPredmet.getDateEndSubject()) zmena= true;
-                if (staryPredmet.getDateStartSubject() != novyPredmet.getDateStartSubject()) zmena= true;
+                if (!staryPredmet.getBuilding().equals(novyPredmet.getBuilding()))     zmena = true;
+                if (!staryPredmet.getDateEndSubject().equals(novyPredmet.getDateEndSubject())) zmena= true;
+                if (!staryPredmet.getDateStartSubject().equals(novyPredmet.getDateStartSubject())) zmena= true;
                 if (staryPredmet.isAct() != novyPredmet.isAct()) zmena= true;
                 if (staryPredmet.getDay() != novyPredmet.getDay()) zmena= true;
-                if (staryPredmet.getName() != novyPredmet.getName()) zmena= true;
-                if (staryPredmet.getId() != novyPredmet.getId()) zmena= true;
-                if (staryPredmet.getRoom() != novyPredmet.getRoom()) zmena= true;
+                if (!staryPredmet.getName().equals(novyPredmet.getName())) zmena= true;
+                if (!staryPredmet.getId().equals(novyPredmet.getId())) zmena= true;
+                if (!staryPredmet.getRoom().equals(novyPredmet.getRoom())) zmena= true;
                 if (staryPredmet.getType() != novyPredmet.getType()) zmena= true;
-                if (staryPredmet.getTimeStart() != novyPredmet.getTimeStart()) zmena= true;
-                if (staryPredmet.getTimeEnd() != novyPredmet.getTimeEnd()) zmena= true;
+                if (!staryPredmet.getTimeStart().equals(novyPredmet.getTimeStart())) zmena= true;
+                if (!staryPredmet.getTimeEnd().equals(novyPredmet.getTimeEnd())) zmena= true;
 
 
             }
 
             if (zmena) {
 
-                changedOld.put(stary.getKey(),staryPredmet);
-                changedNew.put(stary.getKey(),novyPredmet);
+                changedOld.put(key,staryPredmet);
+                changedNew.put(key,novyPredmet);
 
-                System.out.println("Zmenil se: " + stary.getKey());
+                System.out.println("Zmenil se: " + key);
 
 
             }
 
         }
             return new Diff(changedOld, changedNew);
-
-
-
 
 
     }

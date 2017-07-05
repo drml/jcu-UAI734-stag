@@ -22,21 +22,43 @@ public class Parser {
      * @param json
      * @return
      */
-    public TimeTable parse(String json){
+    public ArrayList<Subject> parse(String json){
         //TODO: implement
         splitJSON(json);
-        return null;
+        return listOfSubject;
     }
 
-    private void splitJSON(String json){
-//        String[] str = json.split(":");
-//        String[] pushstr;
-//        for (int i = 0; i<12 ; i++){
-//            pushstr =
-//        }
+    public void splitJSON(String json){
 
-        JSONObject obj = new JSONObject(json);
-        JSONArray arr = obj.getJSONArray("rozvrhovaAkce");
+//        JSONObject obj = new JSONObject(json);
+        JSONArray vnejsiPole = new JSONArray(json);
+
+        JSONObject vnejsiobj = (JSONObject) vnejsiPole.get(0);
+        JSONArray rozvrhoveAkce = vnejsiobj.getJSONArray("rozvrhovaAkce");
+
+        for(Object akce : rozvrhoveAkce){
+            JSONObject jsonAkce = (JSONObject) akce;
+//            if (jsonAkce.get(""))
+
+            JSONObject hodinaObj = jsonAkce.getJSONObject("hodinaSkutOd");
+            String hodina = hodinaObj.getString("value");
+
+            System.out.println(jsonAkce.get("hodinaSkutOd"));
+
+
+        }
+
+
+
+//        String[] str = new String[5];
+//        str[0] = obj.getJSONObject("nazev").toString();
+//        str[1] = obj.getJSONObject("katedra").toString();
+//        str[2] = obj.getJSONObject("budova").toString();
+//        str[3] = obj.getJSONObject("mistnost").toString();
+//        str[4] = obj.getJSONObject("nazev").toString();
+
+
+
     }
 
 
