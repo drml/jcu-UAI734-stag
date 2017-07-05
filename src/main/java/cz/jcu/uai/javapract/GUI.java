@@ -50,15 +50,32 @@ public class GUI implements StateUpdateCallback{
 
         StringBuilder finalni = new StringBuilder();
 
-        Iterator it = zmeny.iterator();
-        while(it.hasNext()){
-            StringBuilder upravy = new StringBuilder();
-            upravy.append((String)it.next());
-            upravy.delete(6,8);
-            finalni.append(upravy+", ");
+        for (String setItem: zmeny) {
+            for (Map.Entry<String, Subject> entry : diff.getNewSubjects().entrySet())
+            {
+                Subject item = entry.getValue();
+                if(item == null) {
+                    for (Map.Entry<String, Subject> entryold : diff.getOldSubjects().entrySet()) {
+                        String key = entryold.getKey();
+                        if (key == setItem) {
+                            finalni.append(item.getName() + " ");
+                            finalni.append(item.getSubjectID() + " ");
+                            finalni.append(item.getSubjectCode() + " ");
+                            finalni.append(item.getType()+"\n");
+                        }
+                    }
+                }else {
+                    String key = entry.getKey();
+                    if (key == setItem) {
+                        finalni.append(item.getName() + " ");
+                        finalni.append(item.getSubjectID() + " ");
+                        finalni.append(item.getSubjectCode() + " ");
+                        finalni.append(item.getType()+"\n");
+                    }
+                }
 
+            }
         }
-        finalni.deleteCharAt(finalni.length()-1);
         finalni.append("\nDoubleClick on Icon in tray to open STAG ");
         return finalni.toString();
     }
@@ -79,7 +96,7 @@ public class GUI implements StateUpdateCallback{
         // Create a popup menu components
         MenuItem aboutItem = new MenuItem("About");
         MenuItem test = new MenuItem("Check for update");
-        MenuItem config = new MenuItem("Config");
+        MenuItem config = new MenuItem("open Config");
         MenuItem exitItem = new MenuItem("Exit");
 
         //Add components to popup menu
@@ -175,8 +192,8 @@ public class GUI implements StateUpdateCallback{
           diff = state;
           System.out.println("Updatujeme");
           System.out.println(timeOfLastChange.getTime());
-          System.out.println(formatToHumanReadable(state));
-            trayIcon.displayMessage("TimeTable Changed", "Changes in subjects:\n "+formatToHumanReadable(state),TrayIcon.MessageType.WARNING );
+          System.out.println(formatToHumanReadable(diff));
+            trayIcon.displayMessage("TimeTable Changed", "Changes in subjects:\n "+formatToHumanReadable(diff),TrayIcon.MessageType.WARNING );
       }
 
     }
