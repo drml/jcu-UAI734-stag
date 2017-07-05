@@ -7,9 +7,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class StagMock extends StagAbstract implements StagInterface {
 
-    public StagMock()
+    public StagMock(ConfigurationParameters configurationParameters)
     {
-        super(null, null);
+        super(configurationParameters, null);
     }
 
     public StagMock(ConfigurationParameters configurationParameters, Parser parser)

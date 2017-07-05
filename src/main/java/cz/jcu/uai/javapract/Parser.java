@@ -27,8 +27,8 @@ public class Parser {
      */
     public TimeTable parse(String json){
         //TODO: implement
-        TimeTable rozvrh = new TimeTable();
-        rozvrh.CreateTimeTable(new Date(),splitJSON(json));
+        TimeTable rozvrh = new TimeTable(new Date(),splitJSON(json));
+//        rozvrh.CreateTimeTable(new Date(),splitJSON(json));
         return rozvrh;
     }
 
@@ -63,6 +63,7 @@ public class Parser {
                 }
 
                 int day;
+                System.out.println(jsonAkce);
                 switch(jsonAkce.getString("denZkr")) {
                     case "Po":
                         day = Calendar.MONDAY;

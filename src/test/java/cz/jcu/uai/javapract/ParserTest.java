@@ -17,11 +17,16 @@ public class ParserTest extends TestCase {
     public void testParse() throws Exception
     {
 
+        Configuration configuration = new Configuration("testovaci.ini");
+
+
         Parser mujparser = new Parser();
-        StagInterface mock = new StagMock();
+        StagInterface mock = new StagMock(configuration.getProps());
 
         String json = mock.fetchCurrentTimetableJson();
         TimeTable timeTable = mujparser.parse(json);
+
+        System.out.println("test");
 
 
         // overit ze je am co checme

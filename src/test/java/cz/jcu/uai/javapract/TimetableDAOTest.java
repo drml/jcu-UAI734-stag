@@ -3,6 +3,11 @@ package cz.jcu.uai.javapract;
 import junit.framework.TestCase;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Timetable DAO test
@@ -18,8 +23,10 @@ public class TimetableDAOTest extends TestCase {
     {
         super.setUp();
 
-        tt1 = new TimetableMockOld();
-        tt2 = new TimetableMockNew();
+        tt1 = createTimeTableStary();
+        tt2 = createTimeTableNovy();
+
+
 
         dao = new TimetableDAO("testStorage.db");
     }
@@ -135,4 +142,50 @@ public class TimetableDAOTest extends TestCase {
 
     }
 
+
+    //testovaci data - stary rozvrh
+    private TimeTable createTimeTableStary(){
+
+        final String dateString = "04.07.2017";
+        SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy");
+
+        Date timetableDate = null;
+        try {
+            timetableDate = formater.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Subject> testSubs = new ArrayList<>();
+        testSubs.add(new Subject("Př","Teoretická informatika",732,"UAI","08:00","09:30", Calendar.MONDAY, "BB", "1","3.10.2016","2.1.2017",true));
+        testSubs.add(new Subject("Př","Bakalářská angličtina NS 3",230,"OJZ","10:00","11:30", Calendar.TUESDAY, "BB", "4","3.10.2016","2.1.2017",true));
+        testSubs.add(new Subject("Cv","Teoretická informatika",732,"UAI","14:30","16:00", Calendar.TUESDAY, "AV", "Pč4","3.10.2016","2.1.2017",true));
+
+
+        return new TimeTable (timetableDate, testSubs);
+
+    }
+
+    //testovaci data - novy rozvrh
+    private TimeTable createTimeTableNovy(){
+
+        final String dateString = "4.7.2017";
+        SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy");
+
+        Date timetableDate = null;
+        try {
+            timetableDate = formater.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Subject> testSubs = new ArrayList<Subject>();
+        testSubs.add(new Subject("Př","Teoretická informatika",732,"UAI","08:00","09:30", Calendar.MONDAY, "BB", "1","3.10.2016","2.1.2017",true));
+        testSubs.add(new Subject("Př","Bakalářská angličtina NS 3",230,"OJZ","12:00","13:30", Calendar.TUESDAY, "BB", "4","3.10.2016","2.1.2017",true));
+        testSubs.add(new Subject("Cv","Teoretická informatika",732,"UAI","14:30","16:00", Calendar.TUESDAY, "AV", "Pč4","3.10.2016","2.1.2017",true));
+        testSubs.add(new Subject("Cv","Teoretická informatika",733,"UAI","14:30","16:00", Calendar.TUESDAY, "AV", "Pč4","3.10.2016","2.1.2017",true));
+
+
+        return new TimeTable(timetableDate, testSubs);
+    }
 }
