@@ -29,6 +29,7 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
 
     private HashSet<String> zmeny;
     private final URL url = new URL("https://wstag.jcu.cz/portal/studium/moje-studium");
+    private final URL urlOfFile;
     private final File file = new File("C:\\Users\\Jirka\\Desktop\\test.txt");
 
     public void registerRefreshCallback(RefreshCallback refreshCallback) {
@@ -40,8 +41,9 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
         zmeny = new HashSet<>();
         actualTime = Calendar.getInstance();
         timeOfLastChange = Calendar.getInstance();
-
+        urlOfFile = GUI.class.getResource("/logo.png");
         createMenu();
+
 
     }
 
@@ -93,7 +95,7 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
 
         final PopupMenu popup = new PopupMenu();
 
-        Image image = Toolkit.getDefaultToolkit().getImage("target/artifacts/images/logo.png");
+        Image image = Toolkit.getDefaultToolkit().getImage(urlOfFile);
         trayIcon = new TrayIcon(image, "Stag Watchdog", popup);
         tray = SystemTray.getSystemTray();
 
