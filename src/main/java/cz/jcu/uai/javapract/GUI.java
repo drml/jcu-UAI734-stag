@@ -164,6 +164,7 @@ public class GUI implements StateUpdateCallback, DisplayErrorCallback{
                     }
                 } else {
                     System.out.println("config cannot be opened");
+                    displayError("config file cannot be opened");
                 }
 
             }
