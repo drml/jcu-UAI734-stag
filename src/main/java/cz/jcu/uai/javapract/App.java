@@ -1,8 +1,10 @@
 package cz.jcu.uai.javapract;
 
-import sun.plugin.com.event.COMEventHandler;
+
+import cz.jcu.uai.javapract.mock.mock.TimetableDAOMock;
 
 import javax.swing.*;
+import java.net.MalformedURLException;
 
 /**
  *
@@ -15,15 +17,7 @@ public class App
     {
         System.out.println( "Hello World!" );
 
-        Configuration configuration = new Configuration("congif.ini");      // probublbá výjimka, je to tak OK?
 
-        Parser parser = new Parser();
-        //StagInterface stag = new StagMock(configuration.getProps(), parser);
-        Comparator comparator = new Comparator();
-        ITimetableDAO dao = new TimetableDAO("timetables.db");
-
-
-        //Controler controler = new Controler(stag, comparator, dao, configuration.getProps());
 
 
         // TODO: dodelat navazani a handlery
@@ -48,7 +42,32 @@ public class App
         //adding TrayIcon.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                GUI gui = new GUI();
+                try {
+                    Configuration configuration = new Configuration("congif.ini");      // probublbá výjimka, je to tak OK?
+
+                    Parser parser = new Parser();
+                    StagInterface stag = new StagMock(configuration.getProps(), parser);
+                    Comparator comparator = new Comparator();
+                    ITimetableDAO dao = new TimetableDAOMock();//("timetables.db");
+
+
+                    Controler controler = new Controler(stag, comparator, dao, configuration.getProps());
+
+
+
+                    GUI gui = new GUI();
+
+                    gui.registerRefreshCallback(controler);
+                    controler.registerStateUpdateCallback(gui);
+
+                    controler.run();
+
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (NotConfiguredException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

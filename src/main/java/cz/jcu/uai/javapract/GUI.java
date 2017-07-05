@@ -2,33 +2,68 @@ package cz.jcu.uai.javapract;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by Drml on 4.7.2017.
  */
 @SuppressWarnings("ALL")
-public class GUI {
+public class GUI implements StateUpdateCallback{
 
-    GUI(){
+    private TrayIcon trayIcon;
+    private SystemTray tray;
+
+    private Calendar timeOfLastChange;
+    private Calendar actualTime;
+
+    private RefreshCallback controler;
+    private Diff diff;
+
+    private HashSet<String> zmeny;
+    private final URL url = new URL("https://wstag.jcu.cz/portal/studium/moje-studium");
+    private final File file = new File("C:\\Users\\Jirka\\Desktop\\test.txt");
+
+    public void registerRefreshCallback(RefreshCallback refreshCallback) {
+        this.controler = refreshCallback;
+    }
+
+    GUI() throws MalformedURLException {
+        zmeny = new HashSet<>();
+        actualTime = Calendar.getInstance();
+        timeOfLastChange = Calendar.getInstance();
+
         createMenu();
+
     }
 
-    public void displayChanges(HashMap<String, Subject> oldSubjects, HashMap<String, Subject> newSubjects){
-        // TODO: implement
+
+    private String formatToHumanReadable(Diff diff){
+        zmeny.addAll(diff.getOldSubjects().keySet());
+        zmeny.addAll(diff.getNewSubjects().keySet());
+
+        StringBuilder finalni = new StringBuilder();
+
+        Iterator it = zmeny.iterator();
+        while(it.hasNext()){
+            StringBuilder upravy = new StringBuilder();
+            upravy.append((String)it.next());
+            upravy.delete(6,8);
+            finalni.append(upravy+", ");
+
+        }
+        finalni.deleteCharAt(finalni.length()-1);
+        finalni.append("\nDoubleClick on Icon in tray to open STAG ");
+        return finalni.toString();
     }
 
-    private String formatToHumanReadable(HashMap<String, Subject> oldSubjects, HashMap<String, Subject> newSubjects){
-        // TODO: implement
-        return null;
-    }
-
-    private void createMenu(){
+    protected void createMenu() throws MalformedURLException {
         //Check the SystemTray support
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
@@ -37,33 +72,22 @@ public class GUI {
 
         final PopupMenu popup = new PopupMenu();
 
-        Image image = Toolkit.getDefaultToolkit().getImage("target/artifacts/images/logo.gif");
-        final TrayIcon trayIcon =
-                new TrayIcon(image, "tray demo", popup);
-        final SystemTray tray = SystemTray.getSystemTray();
+        Image image = Toolkit.getDefaultToolkit().getImage("target/artifacts/images/logo.png");
+        trayIcon = new TrayIcon(image, "Stag Watchdog", popup);
+        tray = SystemTray.getSystemTray();
 
         // Create a popup menu components
         MenuItem aboutItem = new MenuItem("About");
-        CheckboxMenuItem cb1 = new CheckboxMenuItem("Set auto size");
-        CheckboxMenuItem cb2 = new CheckboxMenuItem("Set tooltip");
-        Menu displayMenu = new Menu("Display");
-        MenuItem errorItem = new MenuItem("Error");
-        MenuItem warningItem = new MenuItem("Warning");
-        MenuItem infoItem = new MenuItem("Info");
-        MenuItem noneItem = new MenuItem("None");
+        MenuItem test = new MenuItem("Check for update");
+        MenuItem config = new MenuItem("Config");
         MenuItem exitItem = new MenuItem("Exit");
 
         //Add components to popup menu
         popup.add(aboutItem);
         popup.addSeparator();
-        popup.add(cb1);
-        popup.add(cb2);
+        popup.add(test);
         popup.addSeparator();
-        popup.add(displayMenu);
-        displayMenu.add(errorItem);
-        displayMenu.add(warningItem);
-        displayMenu.add(infoItem);
-        displayMenu.add(noneItem);
+        popup.add(config);
         popup.add(exitItem);
 
         trayIcon.setPopupMenu(popup);
@@ -75,75 +99,52 @@ public class GUI {
             return;
         }
 
-        trayIcon.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,
-                        "This dialog box is run from System Tray");
+        trayIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                   openWebpage(url);
+                }
             }
         });
+
 
         aboutItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
-                        "This dialog box is run from the About menu item");
+                        "JCU Stag TimeTable WatchDog\n\nDoubleClick to open timetable in browser\nRightClick to show MENU\n\n" +
+                                "Aplikace na detekci zmen v rozvrhu. \nPraktikum programovani v jave\n" +
+                                "Tym : Ondrej Doktor, Jiri Hauser, Jakub Kocum, Kaja Pestova\n" +
+                                "2017\ngithub: https://github.com/drml/jcu-UAI734-stag.git");
             }
         });
 
-        cb1.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                int cb1Id = e.getStateChange();
-                if (cb1Id == ItemEvent.SELECTED){
-                    trayIcon.setImageAutoSize(true);
-                } else {
-                    trayIcon.setImageAutoSize(false);
-                }
-            }
-        });
-
-        cb2.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                int cb2Id = e.getStateChange();
-                if (cb2Id == ItemEvent.SELECTED){
-                    trayIcon.setToolTip("Sun TrayIcon");
-                } else {
-                    trayIcon.setToolTip(null);
-                }
-            }
-        });
-
-        ActionListener listener = new ActionListener() {
+        test.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MenuItem item = (MenuItem)e.getSource();
-                //TrayIcon.MessageType type = null;
-                System.out.println(item.getLabel());
-                if ("Error".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.ERROR;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is an error message", TrayIcon.MessageType.ERROR);
-
-                } else if ("Warning".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.WARNING;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is a warning message", TrayIcon.MessageType.WARNING);
-
-                } else if ("Info".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.INFO;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is an info message", TrayIcon.MessageType.INFO);
-
-                } else if ("None".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.NONE;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is an ordinary message", TrayIcon.MessageType.NONE);
-                }
+                controler.refresh();
+                System.out.println("refresh action");
             }
-        };
+        });
 
-        errorItem.addActionListener(listener);
-        warningItem.addActionListener(listener);
-        infoItem.addActionListener(listener);
-        noneItem.addActionListener(listener);
+        //test.addActionListener(new ShowMessageListener(trayIcon, "Warning Title", "Warning", TrayIcon.MessageType.WARNING));
+        config.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                if (Desktop.isDesktopSupported()) {
+                    System.out.println("config file opening");
+                    try {
+                        Desktop.getDesktop().edit(file);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    System.out.println("config cannot be opened");
+                }
+
+            }
+        });
         exitItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tray.remove(trayIcon);
@@ -151,15 +152,83 @@ public class GUI {
             }
         });
     }
-    //Obtain the image URL
-    protected static Image createImage(String path, String description) {
-        URL imageURL = GUI.class.getResource(path);
+    public void refresh(){
+        controler.refresh();
+    }
 
-        if (imageURL == null) {
-            System.err.println("Resource not found: " + path);
-            return null;
-        } else {
-            return (new ImageIcon(imageURL, description)).getImage();
+    @Override
+    public void updateState(Diff state) {
+      // kdyz neni zmena rozvrhu
+        if (state == null) {
+          System.out.println("Up to date");
+            trayIcon.displayMessage("No Changes", "Timetable is up to date\nLast Changed: "+timeOfLastChange.getTime(),TrayIcon.MessageType.INFO );
+          if (timeOfLastChange == actualTime)
+              System.out.println(timeOfLastChange.getTime());
+
+          else
+              System.out.println("last change:"+ timeOfLastChange.getTime());
+          if (diff == null)
+              System.out.println("first run of app");
+      } else  {
+        // zmena rozvrhu
+          timeOfLastChange.setTime(actualTime.getTime());
+          diff = state;
+          System.out.println("Updatujeme");
+          System.out.println(timeOfLastChange.getTime());
+          System.out.println(formatToHumanReadable(state));
+            trayIcon.displayMessage("TimeTable Changed", "Changes in subjects:\n "+formatToHumanReadable(state),TrayIcon.MessageType.WARNING );
+      }
+
+    }
+
+
+    private static class ShowMessageListener implements ActionListener {
+
+        private TrayIcon trayIcon;
+        private String title;
+        private String message;
+        private TrayIcon.MessageType messageType;
+        private final URL url = new URL("https://wstag.jcu.cz/portal/studium/moje-studium");
+
+        ShowMessageListener(TrayIcon trayIcon, String title, String message, TrayIcon.MessageType messageType) throws MalformedURLException {
+            this.trayIcon = trayIcon;
+            this.title = title;
+            this.message = message;
+            this.messageType = messageType;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            trayIcon.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Message Clicked");
+                    openWebpage(url);
+                }
+            });
+            trayIcon.displayMessage(title, message, messageType);
         }
     }
+
+
+
+    public static void openWebpage(URI uri) {
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(uri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void openWebpage(URL url) {
+        try {
+            openWebpage(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+

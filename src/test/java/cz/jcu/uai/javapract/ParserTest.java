@@ -21,7 +21,7 @@ public class ParserTest extends TestCase {
         StagInterface mock = new StagMock();
 
         String json = mock.fetchCurrentTimetableJson();
-        mujparser.splitJSON(json);
+        TimeTable timeTable = mujparser.parse(json);
 
 
         // overit ze je am co checme

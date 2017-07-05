@@ -5,16 +5,17 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Created by Drml on 4.7.2017.
  */
-public class StagMock implements StagInterface {
+public class StagMock extends StagAbstract implements StagInterface {
 
     public StagMock()
     {
+        super(null, null);
     }
 
-//    public StagMock(ConfigurationParameters configurationParameters, Parser parser)
-//    {
-//        super(configurationParameters, parser);
-//    }
+    public StagMock(ConfigurationParameters configurationParameters, Parser parser)
+    {
+        super(configurationParameters, parser);
+    }
 
     public String fetchCurrentTimetableJson()
     {
@@ -23,8 +24,11 @@ public class StagMock implements StagInterface {
 
     public TimeTable fetchCurrentTimetable()
     {
+        return parser.parse(this.fetchCurrentTimetableJson());
+
+
 //        return new TimeTable();
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     }
 
 }
