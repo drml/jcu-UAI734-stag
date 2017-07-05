@@ -21,7 +21,8 @@ public class TimeTable implements Serializable {
 	 * @param date is value where is date of download timetable
 	 * @param listSubject is list subjects from stag
 	 */
-	public void CreateTimeTable(Date date , ArrayList<Subject> listSubject){
+	public TimeTable(Date date , List<Subject> listSubject){
+		this.content= new HashMap<Integer, HashMap<String, Subject>>();
 		this.update = date;
 		for (int i = 0 ; i<listSubject.size() ; i++){
 			content.put(listSubject.get(i).getDay(),addSubject(listSubject.get(i).getDay(),listSubject.get(i)));

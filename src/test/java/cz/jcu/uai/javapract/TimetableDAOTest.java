@@ -1,7 +1,5 @@
 package cz.jcu.uai.javapract;
 
-import cz.jcu.uai.javapract.mock.mock.TimetableMockNew;
-import cz.jcu.uai.javapract.mock.mock.TimetableMockOld;
 import junit.framework.TestCase;
 
 import java.io.IOException;

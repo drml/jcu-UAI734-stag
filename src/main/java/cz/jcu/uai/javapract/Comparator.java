@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 /**
- * Trida porovnanva roydily meyi dvema royvrhy
+ * Trida porovnanva rozdily mezi dvema rozvrhy
  *
  * Created by Drml on 4.7.2017.
  */
@@ -49,9 +49,11 @@ public class Comparator {
 
                 allNewSubjects.put(predmet.getKey(),predmet.getValue());
 
+
             }
 
         }
+
 
         // vsechny klice
         HashSet<String> allKeys = new HashSet<String>();
@@ -62,13 +64,15 @@ public class Comparator {
         // porovnani
         HashMap<String, Subject> changedOld = new HashMap<String, Subject>();
         HashMap<String, Subject> changedNew = new HashMap<String, Subject>();
-        //new
+
+
 
         for (String key : allKeys){
 
             Subject staryPredmet = allOldSubjects.get(key);
             Subject novyPredmet = allNewSubjects.get(key);
             boolean zmena = false;
+
 
             if (novyPredmet == null || staryPredmet == null){
                 zmena = true;
@@ -97,12 +101,15 @@ public class Comparator {
 
                 System.out.println("Zmenil se: " + key);
 
-
             }
 
         }
-            return new Diff(changedOld, changedNew);
+        if(changedOld.size()==0 && changedNew.size()==0){
+            return null;
 
+        }else {
+            return new Diff(changedOld, changedNew);
+        }
 
     }
 
