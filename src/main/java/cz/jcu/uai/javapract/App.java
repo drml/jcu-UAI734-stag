@@ -59,6 +59,7 @@ public class App
 
                     gui.registerRefreshCallback(controler);
                     controler.registerStateUpdateCallback(gui);
+                    controler.registerDisplayErrorCallback(gui);
 
                     controler.run();
 
