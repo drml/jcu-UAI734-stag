@@ -32,7 +32,7 @@ public class Parser {
         return rozvrh;
     }
 
-    public ArrayList<Subject> splitJSON(String json){
+    private ArrayList<Subject> splitJSON(String json){
 
         ArrayList<Subject> listOfSubject = new ArrayList<>();
 

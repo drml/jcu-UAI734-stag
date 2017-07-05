@@ -35,15 +35,19 @@ public class Stag extends StagAbstract implements StagInterface {
 
 
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(apiUrl); // TODO: dodelat tam GET parametry ""
+        HttpGet request = new HttpGet(apiUrl); // TODO: dodelat tam GET parametry "&osCislo=B15254&semestr=ZS"
         HttpResponse response = client.execute(request);
         BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
+
+        StringBuilder stringBuilder = new StringBuilder();
+
         String line = "";
         while ((line = rd.readLine()) != null) {
+            stringBuilder.append(line);
             System.out.println(line);
         }
 
-        return line;
+        return stringBuilder.toString();
 
         // NÁPOVĚDKA :)
         // Zdroj: https://www.javacodegeeks.com/2012/09/simple-rest-client-in-java.html
