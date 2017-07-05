@@ -1,5 +1,6 @@
 package cz.jcu.uai.javapract;
 
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -31,7 +32,6 @@ public class Stag extends StagAbstract implements StagInterface {
     public String fetchCurrentTimetableJson() throws ClientProtocolException, IOException  //vrati string
     {
 //        throw new NotImplementedException();
-
 
 
         HttpClient client = new DefaultHttpClient();

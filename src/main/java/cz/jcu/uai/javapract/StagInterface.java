@@ -2,6 +2,7 @@ package cz.jcu.uai.javapract;
 
 
 import org.apache.http.client.ClientProtocolException;
+
 import java.io.IOException;;
 
 /**
