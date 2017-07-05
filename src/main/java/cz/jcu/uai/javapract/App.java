@@ -3,6 +3,7 @@ package cz.jcu.uai.javapract;
 import sun.plugin.com.event.COMEventHandler;
 
 import javax.swing.*;
+import java.net.MalformedURLException;
 
 /**
  *
@@ -31,8 +32,8 @@ public class App
         ///////// Jikovo věci ke GUI
 
         try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (UnsupportedLookAndFeelException ex) {
             ex.printStackTrace();
         } catch (IllegalAccessException ex) {
@@ -48,7 +49,11 @@ public class App
         //adding TrayIcon.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                GUI gui = new GUI();
+                try {
+                    GUI gui = new GUI();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

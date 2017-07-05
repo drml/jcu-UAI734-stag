@@ -2,8 +2,11 @@ package cz.jcu.uai.javapract;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,11 +29,13 @@ public class GUI implements StateUpdateCallback {
 
     private HashSet<String> zmeny;
 
+
     public void registerRefreshCallback(RefreshCallback refreshCallback) {
         this.controler = refreshCallback;
     }
 
-    GUI(){
+    GUI() throws MalformedURLException {
+        zmeny = new HashSet<>();
         actualTime = Calendar.getInstance();
         timeOfLastChange = Calendar.getInstance();
         createMenu();
@@ -42,12 +47,13 @@ public class GUI implements StateUpdateCallback {
 
     }
 
-    private String formatToHumanReadable(HashMap<String, Subject> oldSubjects, HashMap<String, Subject> newSubjects){
-        // TODO: implement
-        return null;
+    private String formatToHumanReadable(Diff diff){
+        zmeny.addAll(diff.getOldSubjects().keySet());
+        zmeny.addAll(diff.getNewSubjects().keySet());
+        return zmeny.toString();
     }
 
-    protected void createMenu() {
+    protected void createMenu() throws MalformedURLException {
         //Check the SystemTray support
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
@@ -62,27 +68,17 @@ public class GUI implements StateUpdateCallback {
 
         // Create a popup menu components
         MenuItem aboutItem = new MenuItem("About");
-
-        Menu displayMenu = new Menu("Display");
-        MenuItem errorItem = new MenuItem("Error");
-        MenuItem warningItem = new MenuItem("Warning");
-        MenuItem infoItem = new MenuItem("Info");
-        MenuItem noneItem = new MenuItem("None");
+        MenuItem test = new MenuItem("TEST");
         MenuItem exitItem = new MenuItem("Exit");
 
         //Add components to popup menu
         popup.add(aboutItem);
         popup.addSeparator();
-        popup.add(displayMenu);
-        displayMenu.add(errorItem);
-        displayMenu.add(warningItem);
-        displayMenu.add(infoItem);
-        displayMenu.add(noneItem);
+        popup.add(test);
+        popup.addSeparator();
         popup.add(exitItem);
 
         trayIcon.setPopupMenu(popup);
-
-
 
         try {
             tray.add(trayIcon);
@@ -107,47 +103,7 @@ public class GUI implements StateUpdateCallback {
             }
         });
 
-
-        ActionListener listener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                MenuItem item = (MenuItem) e.getSource();
-                //TrayIcon.MessageType type = null;
-                System.out.println(item.getLabel());
-                if ("Error".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.ERROR;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is an error message" +
-                                    "This is an error message" +
-                                    "This is an error message" +
-                                    "This is an error message" +
-                                    "This is an error message" +
-                                    "This is an error messageThis is an error messageThis is an error messageThis is an error messageThis is an error messageThis is an error messageThis is an error message" +
-                                    "This is an error message" +
-                                    "" +
-                                    "", TrayIcon.MessageType.ERROR);
-
-                } else if ("Warning".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.WARNING;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is a warning message", TrayIcon.MessageType.WARNING);
-
-                } else if ("Info".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.INFO;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is an info message", TrayIcon.MessageType.INFO);
-
-                } else if ("None".equals(item.getLabel())) {
-                    //type = TrayIcon.MessageType.NONE;
-                    trayIcon.displayMessage("Sun TrayIcon Demo",
-                            "This is an ordinary message", TrayIcon.MessageType.NONE);
-                }
-            }
-        };
-
-        errorItem.addActionListener(listener);
-        warningItem.addActionListener(listener);
-        infoItem.addActionListener(listener);
-        noneItem.addActionListener(listener);
+        test.addActionListener(new ShowMessageListener(trayIcon, "Warning Title", "Warning", TrayIcon.MessageType.WARNING));
 
         exitItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -155,6 +111,9 @@ public class GUI implements StateUpdateCallback {
                 System.exit(0);
             }
         });
+    }
+    public void refresh(){
+        controler.refresh();
     }
 
     @Override
@@ -174,8 +133,59 @@ public class GUI implements StateUpdateCallback {
           diff = state;
           System.out.println("Updatujeme");
           System.out.println(timeOfLastChange.getTime());
-
+          System.out.println(formatToHumanReadable(state));
       }
 
     }
+
+
+    private static class ShowMessageListener implements ActionListener {
+
+        private TrayIcon trayIcon;
+        private String title;
+        private String message;
+        private TrayIcon.MessageType messageType;
+        private final URL url = new URL("https://wstag.jcu.cz/portal/studium/moje-studium");
+
+        ShowMessageListener(TrayIcon trayIcon, String title, String message, TrayIcon.MessageType messageType) throws MalformedURLException {
+            this.trayIcon = trayIcon;
+            this.title = title;
+            this.message = message;
+            this.messageType = messageType;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            trayIcon.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Message Clicked");
+                    openWebpage(url);
+                }
+            });
+            trayIcon.displayMessage(title, message, messageType);
+        }
+    }
+
+
+
+    public static void openWebpage(URI uri) {
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(uri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void openWebpage(URL url) {
+        try {
+            openWebpage(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+

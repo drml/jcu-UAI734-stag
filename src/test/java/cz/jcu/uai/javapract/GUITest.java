@@ -3,6 +3,7 @@ package cz.jcu.uai.javapract;
 import junit.framework.TestCase;
 
 import javax.swing.*;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -13,6 +14,8 @@ public class GUITest extends TestCase {
     
     private final GUI gui = new GUI();
 
+    public GUITest() throws MalformedURLException {
+    }
 
 
     public void testRegisterRefreshCallback() throws Exception {
@@ -35,7 +38,11 @@ public class GUITest extends TestCase {
         //adding TrayIcon.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                gui.createMenu();
+                try {
+                    gui.createMenu();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
