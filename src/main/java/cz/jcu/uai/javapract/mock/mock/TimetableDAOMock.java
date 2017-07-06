@@ -3,14 +3,12 @@ package cz.jcu.uai.javapract.mock.mock;
 import cz.jcu.uai.javapract.ITimetableDAO;
 import cz.jcu.uai.javapract.Subject;
 import cz.jcu.uai.javapract.TimeTable;
-import cz.jcu.uai.javapract.TimetableDAO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * DAO mock TODO: smazat?
@@ -71,9 +69,8 @@ public class TimetableDAOMock implements ITimetableDAO
 
     }
 
-    public void load()
-    {
-
+    public boolean load()
+    {return true;
     }
 
     //testovaci data - stary rozvrh

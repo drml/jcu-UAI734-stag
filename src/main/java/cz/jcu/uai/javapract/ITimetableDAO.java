@@ -61,7 +61,7 @@ public interface ITimetableDAO {
     /**
      * Loads the state of the collection.
      */
-    public void load() throws IOException, ClassNotFoundException;
+    public boolean load() throws IOException, ClassNotFoundException;
 
 
 }

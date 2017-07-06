@@ -29,29 +29,37 @@ public class Comparator {
 
         HashMap<String, Subject> allOldSubjects = new HashMap<String, Subject>();
 
-        for (Map.Entry<Integer, HashMap<String, Subject>> polozka : oldTable.getContent().entrySet())
-        {
-            for (Map.Entry<String, Subject> predmet : polozka.getValue().entrySet()){
+        if (oldTable != null){
+            for (Map.Entry<Integer, HashMap<String, Subject>> polozka : oldTable.getContent().entrySet())
+            {
+                for (Map.Entry<String, Subject> predmet : polozka.getValue().entrySet()){
 
-                allOldSubjects.put(predmet.getKey(),predmet.getValue());
+                    allOldSubjects.put(predmet.getKey(),predmet.getValue());
+
+                }
 
             }
 
         }
 
+
         // jeste jednou pro allNewSubjects
 
         HashMap<String, Subject> allNewSubjects = new HashMap<String, Subject>();
 
-        for (Map.Entry<Integer, HashMap<String, Subject>> polozka : newTable.getContent().entrySet())
-        {
-            for (Map.Entry<String, Subject> predmet : polozka.getValue().entrySet()){
 
-                allNewSubjects.put(predmet.getKey(),predmet.getValue());
+        if (newTable != null){
 
+            for (Map.Entry<Integer, HashMap<String, Subject>> polozka : newTable.getContent().entrySet())
+            {
+                for (Map.Entry<String, Subject> predmet : polozka.getValue().entrySet()){
+
+                    allNewSubjects.put(predmet.getKey(),predmet.getValue());
+
+
+                }
 
             }
-
         }
 
 
@@ -79,14 +87,43 @@ public class Comparator {
             } else {
                 // polozku po polozce
 
-                if (!staryPredmet.getBuilding().equals(novyPredmet.getBuilding()))     zmena = true;
-                if (!staryPredmet.getDateEndSubject().equals(novyPredmet.getDateEndSubject())) zmena= true;
-                if (!staryPredmet.getDateStartSubject().equals(novyPredmet.getDateStartSubject())) zmena= true;
+                if (staryPredmet.getBuilding() == null){
+                    if (staryPredmet.getBuilding() != novyPredmet.getBuilding()){
+                        zmena = true;
+                    }
+                } else {
+                    if (!staryPredmet.getBuilding().equals(novyPredmet.getBuilding()))     zmena = true;
+                }
+
+                if (staryPredmet.getDateEndSubject() == null){
+                    if (staryPredmet.getDateEndSubject() != novyPredmet.getDateEndSubject()){
+                        zmena = true;
+                    }
+                } else {
+                    if (!staryPredmet.getDateEndSubject().equals(novyPredmet.getDateEndSubject())) zmena= true;
+                }
+
+                if (staryPredmet.getDateStartSubject() == null){
+                    if (staryPredmet.getDateStartSubject() != novyPredmet.getDateStartSubject()){
+                        zmena = true;
+                    }
+                } else {
+                    if (!staryPredmet.getDateStartSubject().equals(novyPredmet.getDateStartSubject())) zmena= true;
+                }
+
+                if (staryPredmet.getRoom() == null){
+                    if (staryPredmet.getDateStartSubject() != novyPredmet.getDateStartSubject()){
+                        zmena = true;
+                    }
+                } else {
+                    if (!staryPredmet.getDateStartSubject().equals(novyPredmet.getDateStartSubject())) zmena= true;
+                }
+
                 if (staryPredmet.isAct() != novyPredmet.isAct()) zmena= true;
                 if (staryPredmet.getDay() != novyPredmet.getDay()) zmena= true;
                 if (!staryPredmet.getName().equals(novyPredmet.getName())) zmena= true;
                 if (!staryPredmet.getId().equals(novyPredmet.getId())) zmena= true;
-                if (!staryPredmet.getRoom().equals(novyPredmet.getRoom())) zmena= true;
+
                 if (staryPredmet.getType() != novyPredmet.getType()) zmena= true;
                 if (!staryPredmet.getTimeStart().equals(novyPredmet.getTimeStart())) zmena= true;
                 if (!staryPredmet.getTimeEnd().equals(novyPredmet.getTimeEnd())) zmena= true;

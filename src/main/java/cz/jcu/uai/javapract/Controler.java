@@ -1,5 +1,6 @@
 package cz.jcu.uai.javapract;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,6 +34,11 @@ public class Controler implements RefreshCallback {
 
     private Diff doDiff(){
 
+//        if (dao.getOneBeforeLast() == null || dao.getLast() == null){
+//            return null;
+//        }
+
+
         Diff diff = comparator.diff(dao.getOneBeforeLast(),dao.getLast());
 
         if (diff != null){
@@ -49,11 +55,13 @@ public class Controler implements RefreshCallback {
      */
     private boolean doUpdate(){
 
-//        return false;
-
-
         TimeTable stagTimetable = stag.fetchCurrentTimetable();
         TimeTable lastKnown = dao.getLast();
+
+        if (lastKnown == null){
+            dao.add(stagTimetable);
+            return true;
+        }
 
         if (comparator.diff(stagTimetable, lastKnown) != null) {
             dao.add(stagTimetable);

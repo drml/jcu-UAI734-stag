@@ -4,6 +4,7 @@ package cz.jcu.uai.javapract;
 import cz.jcu.uai.javapract.mock.mock.TimetableDAOMock;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
@@ -50,6 +51,8 @@ public class App
                     Comparator comparator = new Comparator();
                     ITimetableDAO dao = new TimetableDAO("timetables.db");//("timetables.db");
 
+                    dao.load();
+
 
                     Controler controler = new Controler(stag, comparator, dao, configuration.getProps());
 
@@ -65,6 +68,10 @@ public class App
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (NotConfiguredException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }

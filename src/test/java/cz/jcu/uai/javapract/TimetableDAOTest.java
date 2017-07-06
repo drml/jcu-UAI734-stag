@@ -28,12 +28,12 @@ public class TimetableDAOTest extends TestCase {
 
 
 
-        dao = new TimetableDAO("testStorage.db");
+        dao = new TimetableDAO("timetables_test.db");
     }
 
     public void testAddAndGet() throws Exception
     {
-        dao = new TimetableDAO("testStorage.db");
+        dao = new TimetableDAO("timetables_test.db");
         // make sure it does not exist
         assertNull(dao.get(tt1.getUpdate()));
 
@@ -52,7 +52,7 @@ public class TimetableDAOTest extends TestCase {
 
     public void testRemove() throws Exception
     {
-        dao = new TimetableDAO("testStorage.db");
+        dao = new TimetableDAO("timetables_test.db");
         // make sure it does not exist
         assertNull(dao.get(tt2.getUpdate()));
 
@@ -75,7 +75,7 @@ public class TimetableDAOTest extends TestCase {
 
     public void testGetLast() throws Exception
     {
-        dao = new TimetableDAO("testStorage.db");
+        dao = new TimetableDAO("timetables_test.db");
         dao.add(tt1);
         dao.add(tt2);       // newer
 
@@ -87,7 +87,7 @@ public class TimetableDAOTest extends TestCase {
 
     public void testGetOneBeforeLast() throws Exception
     {
-        dao = new TimetableDAO("testStorage.db");
+        dao = new TimetableDAO("timetables_test.db");
         dao.add(tt1);
         dao.add(tt2);       // newer
 
@@ -99,7 +99,7 @@ public class TimetableDAOTest extends TestCase {
 
     public void testSave() throws Exception
     {
-        dao = new TimetableDAO("testStorage.db");
+        dao = new TimetableDAO("timetables_test.db");
         dao.add(tt1);
         dao.add(tt2);       // newer
 
@@ -113,19 +113,19 @@ public class TimetableDAOTest extends TestCase {
 
     }
 
-    public void testLoad() throws Exception
+    public void testLoad()
     {
-        TimetableDAO loaded = new TimetableDAO("testStorage.db");
+        TimetableDAO loaded = new TimetableDAO("timetables_test.db");
 
         // confirm there are none of theese
         assertNull(loaded.get(tt1.getUpdate()));
         assertNull(loaded.get(tt2.getUpdate()));
 
         // try to load
-        try {
-            loaded.load();
-        } catch (IOException e){
-            fail("nepodarilo se nacist: "+e.getMessage());
+            boolean success = loaded.load();
+            if (!success){
+            fail("nepodarilo se nacist: ");
+
         }
 
         // check if loaded
@@ -133,12 +133,10 @@ public class TimetableDAOTest extends TestCase {
         assertNotNull(loaded.get(tt2.getUpdate()));
 
         loaded.setSaveFilename("dsjfsfajjiwfjdsfjspap.nonexistent");
-        try {
-            loaded.load();
-            fail("Nejak nam to nacita i kdyz nema z ceho :-/");
-        } catch (IOException e){
-            // expected
-        }
+            boolean result = loaded.load();
+            if (result){
+                fail("Nejak nam to nacita i kdyz nema z ceho :-/");
+            }
 
     }
 
@@ -146,7 +144,7 @@ public class TimetableDAOTest extends TestCase {
     //testovaci data - stary rozvrh
     private TimeTable createTimeTableStary(){
 
-        final String dateString = "04.07.2017";
+        final String dateString = "03.07.2017";
         SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy");
 
         Date timetableDate = null;
