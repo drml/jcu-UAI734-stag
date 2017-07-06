@@ -1,3 +1,1 @@
-chcp 65001
-mvn compile
-mvn exec:java
+java -Dfile.encoding=UTF-8 -cp StagWathcdog-jar-with-dependencies.jar cz.jcu.uai.javapract.App
