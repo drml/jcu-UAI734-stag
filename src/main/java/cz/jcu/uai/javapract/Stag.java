@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -126,7 +127,7 @@ public class Stag extends StagAbstract implements StagInterface {
         try {
             System.out.println(response.getStatusLine());
             HttpEntity entity = response.getEntity();
-            BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
+            BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
 
             String line = "";
             while ((line = rd.readLine()) != null) {
