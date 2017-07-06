@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
  */
 public class App 
 {
-    public static void main( String[] args ) throws NotConfiguredException
+    public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
 
@@ -44,7 +44,15 @@ public class App
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Configuration configuration = new Configuration("config.ini");      // probublbá výjimka, je to tak OK?
+
+                    String error = null;
+
+                    Configuration configuration = null;
+                    try {
+                        configuration = new Configuration("config.ini");
+                    } catch (NotConfiguredException e) {
+                        error = "Nepodařilo se načíst konfiguraci, obnoveny výchozí hodnoty. Restartujte aplikaci";
+                    }
 
                     Parser parser = new Parser();
                     StagInterface stag = new Stag(configuration.getProps(), parser);
@@ -62,16 +70,14 @@ public class App
                     controler.registerStateUpdateCallback(gui);
                     controler.registerDisplayErrorCallback(gui);
 
+                    if(error != null){
+                        gui.displayError(error);
+                    }
+
                     controler.run();
 
 
                 } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (NotConfiguredException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }

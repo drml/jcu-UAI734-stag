@@ -97,13 +97,14 @@ public class Configuration {
             ini.add(INI_SECTION, "semester", "LS");
         }
 
-        ini.add(INI_SECTION, "refreshRate", "60");
+        ini.add(INI_SECTION, "refreshRate", "30");
 
         try {
             ini.store();
         } catch (IOException e) {
             throw new NotConfiguredException("Cannot recreate default config in path '"+ configFilename +"'.");
         }
+
     }
 
 
