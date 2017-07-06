@@ -1,1 +1,1 @@
-java -Dfile.encoding=UTF-8 -cp StagWathcdog-jar-with-dependencies.jar cz.jcu.uai.javapract.App
+java -Dfile.encoding=Uies.jar cz.jcu.uai.javapract.AppTF-8 -cp target\StagWathcdog-jar-with-dependenc
